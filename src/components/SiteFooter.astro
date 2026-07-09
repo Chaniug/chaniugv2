@@ -1,0 +1,13 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="footer-divider" aria-hidden="true">
+    <span class="footer-divider-line"></span>
+    <span class="footer-divider-dot"></span>
+    <span class="footer-divider-line"></span>
+  </div>
+  <p class="footer-motto">不慕往，不闵来</p>
+  <p class="footer-copy">© 2023-{year} {site.name} · 用代码点亮数字世界</p>
+</footer>

@@ -1,0 +1,158 @@
+---
+import { skills } from '../data/skills';
+const base = import.meta.env.BASE_URL;
+const radius = 230;
+const positioned = skills.map((s, i) => {
+  const angle = (i / skills.length) * Math.PI * 2 - Math.PI / 2;
+  return { ...s, tx: Math.cos(angle) * radius, ty: Math.sin(angle) * radius };
+});
+---
+<section id="skills" class="section">
+  <div class="section-inner">
+    <div class="section-label reveal">
+      <span class="label-line"></span>
+      <span class="label-text">S K I L L S</span>
+      <span class="label-line"></span>
+    </div>
+    <button class="constellation-toggle" id="constellation-toggle" aria-label="展开星图">
+      <span class="toggle-icon">✦</span>
+      <span class="toggle-text">点击星核 · 展开星图</span>
+    </button>
+    <div class="constellation" id="skills-constellation">
+      <canvas class="constellation-canvas" aria-hidden="true"></canvas>
+      <div class="constellation-core" aria-hidden="true">
+        <div class="core-pulse"></div>
+        <div class="core-dot">
+          <div class="core-inner"></div>
+        </div>
+        <div class="core-motto">
+          <span class="motto-cn">器以载道</span>
+          <span class="motto-en">Code as Craft</span>
+        </div>
+      </div>
+      <div class="constellation-nodes" id="constellation-nodes">
+        {
+          positioned.map((s) => (
+            <div
+              class="constellation-node"
+              data-skill={s.name}
+              data-category={s.category}
+              style={`--tx:${s.tx}px;--ty:${s.ty}px`}
+            >
+              {s.icon === 'inline:ai' ? (
+                <svg class="node-icon node-icon-ai" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 2l1.5 5h5l-4 3 1.5 5-4-3-4 3 1.5-5-4-3h5z" fill="#22d3ee" />
+                  <circle cx="12" cy="12" r="1.5" fill="#fff" />
+                </svg>
+              ) : s.icon === 'inline:windows' ? (
+                <svg class="node-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M3 5h8.5v8.5H3V5zM12.5 5H21v8.5h-8.5V5zM3 14.5h8.5V23H3v-8.5zM12.5 14.5H21V23h-8.5v-8.5z" fill="#00ADEF" />
+                </svg>
+              ) : (
+                <img class="node-icon" src={`${base}${s.icon}`} alt="" loading="lazy" decoding="async" />
+              )}
+              <span class="node-label">{s.name}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .constellation {
+    position: relative;
+    min-height: 520px;
+  }
+  .constellation-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .constellation-nodes {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+  .constellation-node {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease;
+    will-change: transform;
+  }
+  :global(.constellation.expanded) .constellation-node {
+    transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, 0px))) scale(1);
+    opacity: 1;
+  }
+  .constellation-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+</style>
+
+<script>
+  const constellation = document.getElementById('skills-constellation');
+  const canvas = constellation?.querySelector<HTMLCanvasElement>('.constellation-canvas');
+  const toggle = document.getElementById('constellation-toggle');
+  const nodesWrap = document.getElementById('constellation-nodes');
+  const nodes = Array.from(nodesWrap?.querySelectorAll('.constellation-node') ?? []);
+  let expanded = false;
+  let raf = 0;
+
+  toggle?.addEventListener('click', () => {
+    expanded = !expanded;
+    constellation?.classList.toggle('expanded', expanded);
+    const t = toggle.querySelector('.toggle-text');
+    if (t) t.textContent = expanded ? '点击星核 · 收拢星图' : '点击星核 · 展开星图';
+    if (expanded) loop();
+  });
+
+  function loop() {
+    if (!canvas || !constellation) return;
+    const rect = constellation.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    if (canvas.width !== rect.width * dpr || canvas.height !== rect.height * dpr) {
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+
+    if (expanded) {
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      nodes.forEach((n) => {
+        const r = n.getBoundingClientRect();
+        const nx = r.left + r.width / 2 - rect.left;
+        const ny = r.top + r.height / 2 - rect.top;
+        ctx.strokeStyle = 'rgba(79,140,255,0.18)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(nx, ny);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(34,211,238,0.5)';
+        ctx.beginPath();
+        ctx.arc(nx, ny, 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      raf = requestAnimationFrame(loop);
+    } else {
+      cancelAnimationFrame(raf);
+    }
+  }
+
+  window.addEventListener('resize', () => {
+    if (expanded) loop();
+  });
+</script>

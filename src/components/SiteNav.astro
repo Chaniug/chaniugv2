@@ -1,0 +1,83 @@
+---
+import { site } from '../data/site';
+---
+<nav class="site-nav" id="siteNav" aria-label="主导航">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo" aria-label="回到顶部">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="14" stroke="url(#navLogoGrad)" stroke-width="1.5" />
+        <path d="M10 22 L16 10 L22 22" stroke="url(#navLogoGrad)" stroke-width="1.8" fill="none" stroke-linejoin="round" />
+        <circle cx="16" cy="17" r="2" fill="#4f8cff" />
+        <defs>
+          <linearGradient id="navLogoGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#4f8cff" />
+            <stop offset="100%" stop-color="#a855f7" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span>{site.name}</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      {
+        site.nav.map((item) => (
+          <li>
+            <a href={`#${item.id}`} class="nav-link">{item.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="切换导航菜单" aria-expanded="false">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+  </div>
+  <div class="nav-indicator" id="navIndicator" aria-hidden="true"></div>
+</nav>
+
+<script>
+  const nav = document.getElementById('siteNav');
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+  const navLinkEls = Array.from(links?.querySelectorAll<HTMLAnchorElement>('.nav-link') ?? []);
+
+  // 汉堡菜单
+  toggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('nav-open') ?? false;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+
+  // 点击链接后收起移动端菜单
+  navLinkEls.forEach((a) =>
+    a.addEventListener('click', () => {
+      nav?.classList.remove('nav-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    })
+  );
+
+  // 下划线指示器跟随当前区块
+  function moveIndicator(el: HTMLElement | null) {
+    if (!indicator || !el || !el.parentElement) return;
+    const r = el.getBoundingClientRect();
+    const parent = el.parentElement.getBoundingClientRect();
+    indicator.style.width = `${r.width}px`;
+    indicator.style.left = `${r.left - parent.left}px`;
+    indicator.style.opacity = '1';
+  }
+
+  function onScroll() {
+    let active: HTMLElement | null = navLinkEls[0] ?? null;
+    for (const a of navLinkEls) {
+      const id = a.getAttribute('href')?.slice(1);
+      const sec = id ? document.getElementById(id) : null;
+      if (sec && sec.getBoundingClientRect().top <= 120) active = a;
+    }
+    navLinkEls.forEach((a) => a.classList.toggle('active', a === active));
+    moveIndicator(active);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+</script>

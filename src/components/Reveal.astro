@@ -1,0 +1,22 @@
+---
+// 滚动揭示：为 .reveal 元素进入视口时添加 .visible（替代原 personal.min.js 的 Reveal 块）
+---
+<script>
+  const els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach((el) => el.classList.add('visible'));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    els.forEach((el) => io.observe(el));
+  }
+</script>

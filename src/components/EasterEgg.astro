@@ -1,0 +1,145 @@
+---
+// 终端彩蛋弹窗：监听 open-easter-egg 事件显示，并触发 confetti 反馈（canvas-confetti 已装）
+---
+<div class="egg-overlay" id="easterEggOverlay" aria-hidden="true">
+  <div class="egg-card">
+    <button class="egg-close" id="easterEggClose" aria-label="关闭">&times;</button>
+    <div class="egg-content">
+      <div class="ee-diamond">&#9670;</div>
+      <p class="ee-title">我终于活成了自己讨厌的样子</p>
+      <p class="ee-text">
+        小时候总以为长大就能拥有全世界，<br />
+        后来才发现，长大只是学会了接受失去。<br /><br />
+        那些深夜写下又删掉的朋友圈，<br />
+        那些话到嘴边又咽回去的瞬间，<br />
+        那些明明很委屈却笑着说「没事」的日子——<br />
+        我们不是在长大，我们只是在学会伪装。<br /><br />
+        十八岁那年我以为自己是主角，<br />
+        二十五岁发现自己顶多是个龙套，<br />
+        跑龙套的工资还经常被拖欠。<br /><br />
+        这个世界教会我的第一课不是善良，<br />
+        是闭嘴。<br />
+        第二课不是奋斗，<br />
+        是认命。<br /><br />
+        我花了好多年才明白一个道理：<br />
+        有些人光是活着，就已经用尽了全部力气。<br />
+        而我就是那个「有些人」。
+      </p>
+      <div class="ee-divider"></div>
+      <p class="ee-signature">— 如果这就是人生的答案，那我宁愿没答过这道题</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .egg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(10, 10, 20, 0.72);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+  }
+  .egg-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .egg-card {
+    position: relative;
+    max-width: 480px;
+    width: 100%;
+    max-height: 86vh;
+    overflow-y: auto;
+    padding: 2.6rem 2rem 2rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(24px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: translateY(20px) scale(0.96);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .egg-overlay.open .egg-card {
+    transform: translateY(0) scale(1);
+  }
+  .egg-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .egg-close:hover {
+    color: var(--text-primary);
+  }
+  .ee-diamond {
+    font-size: 1.5rem;
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  .ee-title {
+    font-family: var(--font-sans);
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+  .ee-text {
+    font-size: 0.92rem;
+    line-height: 1.9;
+    color: var(--text-secondary);
+    text-align: left;
+  }
+  .ee-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    margin: 1.4rem 0;
+  }
+  .ee-signature {
+    font-style: italic;
+    color: var(--text-primary);
+    text-align: right;
+  }
+</style>
+
+<script>
+  import confetti from 'canvas-confetti';
+
+  const overlay = document.getElementById('easterEggOverlay');
+  const close = document.getElementById('easterEggClose');
+
+  function open() {
+    overlay?.classList.add('open');
+    overlay?.setAttribute('aria-hidden', 'false');
+    confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+  }
+  function hide() {
+    overlay?.classList.remove('open');
+    overlay?.setAttribute('aria-hidden', 'true');
+  }
+
+  window.addEventListener('open-easter-egg', open);
+  close?.addEventListener('click', hide);
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) hide();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay?.classList.contains('open')) hide();
+  });
+</script>

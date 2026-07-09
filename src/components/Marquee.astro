@@ -1,0 +1,28 @@
+---
+const words = [
+  'Courage',
+  'Perseverance',
+  'Resilience',
+  'Innovation Changes the World',
+  'Forge Ahead',
+  'Tech for Good',
+  'Craft with Passion',
+  'Break Boundaries',
+];
+---
+<div class="marquee-section reveal" aria-hidden="true">
+  <div class="marquee-track">
+    {
+      [0, 1].map(() => (
+        <div class="marquee-content">
+          {words.map((w) => (
+            <>
+              <span>{w}</span>
+              <span class="marquee-dot">·</span>
+            </>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>

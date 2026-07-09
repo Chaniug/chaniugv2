@@ -1,0 +1,124 @@
+---
+// 背景层：用 @tsparticles/slim 替代原手写的三层 canvas 星空（更专业、可维护、自带 reduced-motion 闸门）
+// 保留 orbs / overlays / spotlight 等 CSS 装饰（样式来自全局 css/modules）
+---
+<div id="bg-field" aria-hidden="true">
+  <div id="tsparticles"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div id="spotlight"></div>
+  <div class="noise-overlay"></div>
+  <div class="grid-overlay"></div>
+  <div class="scanline-overlay"></div>
+  <div class="hex-mesh-overlay"></div>
+</div>
+
+<style>
+  #bg-field {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  #tsparticles {
+    position: absolute;
+    inset: 0;
+  }
+  #spotlight {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      620px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(79, 140, 255, 0.12),
+      transparent 60%
+    );
+    transition: background 0.2s ease;
+  }
+</style>
+
+<script>
+  import { tsParticles } from '@tsparticles/engine';
+  import { loadSlim } from '@tsparticles/slim';
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  async function initParticles() {
+    await loadSlim(tsParticles);
+    await tsParticles.load({
+      id: 'tsparticles',
+      options: {
+        fullScreen: { enable: false },
+        background: { color: 'transparent' },
+        fpsLimit: 60,
+        particles: {
+          number: {
+            value: reduced ? 40 : 170,
+            density: { enable: true, area: 900 },
+          },
+          color: { value: ['#4f8cff', '#a855f7', '#22d3ee'] },
+          shape: { type: 'circle' },
+          opacity: {
+            value: { min: 0.2, max: 0.85 },
+            animation: { enable: !reduced, speed: 0.6, sync: false },
+          },
+          size: { value: { min: 0.6, max: 2.4 } },
+          links: {
+            enable: true,
+            distance: 130,
+            color: '#4f8cff',
+            opacity: 0.14,
+            width: 1,
+          },
+          move: {
+            enable: !reduced,
+            speed: 0.45,
+            direction: 'none',
+            random: true,
+            outModes: { default: 'out' },
+          },
+        },
+        interactivity: {
+          events: {
+            onHover: { enable: !reduced, mode: 'grab' },
+            onClick: { enable: false },
+          },
+          modes: {
+            grab: { distance: 170, links: { opacity: 0.45 } },
+          },
+        },
+        detectRetina: true,
+      },
+    });
+  }
+
+  function initSpotlight() {
+    const spot = document.getElementById('spotlight');
+    if (!spot || reduced) return;
+    let tx = window.innerWidth / 2,
+      ty = window.innerHeight / 2,
+      x = tx,
+      y = ty;
+    window.addEventListener(
+      'mousemove',
+      (e) => {
+        tx = e.clientX;
+        ty = e.clientY;
+      },
+      { passive: true }
+    );
+    function loop() {
+      x += (tx - x) * 0.08;
+      y += (ty - y) * 0.08;
+      spot.style.setProperty('--mx', `${x}px`);
+      spot.style.setProperty('--my', `${y}px`);
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  initParticles();
+  initSpotlight();
+</script>

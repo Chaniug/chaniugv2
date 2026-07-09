@@ -1,0 +1,128 @@
+---
+import signatureSvg from '../../public/img/valkjin.svg?raw';
+const base = import.meta.env.BASE_URL;
+---
+<section id="hero" class="section">
+  <div class="section-inner hero-content">
+    <!-- Hero 科技轨道装饰环 -->
+    <div class="hero-orbits" aria-hidden="true">
+      <div class="orbit-ring ring-1"></div>
+      <div class="orbit-ring ring-2"></div>
+      <div class="orbit-ring ring-3"></div>
+    </div>
+
+    <!-- 头像 -->
+    <div class="avatar-wrapper reveal">
+      <div class="avatar" title="valkjin">
+        <picture>
+          <source srcset={`${base}img/avatar.webp`} type="image/webp" />
+          <img src={`${base}img/avatar.jpg`} alt="valkjin 头像" width="120" height="120" />
+        </picture>
+        <span class="avatar-status" title="在线"></span>
+      </div>
+    </div>
+
+    <!-- 签名 -->
+    <div class="hero-signature reveal" id="heroSignature" aria-label="Valkjin 签名" role="img">
+      <div class="signature-inner" set:html={signatureSvg}></div>
+    </div>
+
+    <!-- 代码编辑器（3 态交互占位） -->
+    <div class="hero-bio code-editor reveal">
+      <div class="editor-titlebar">
+        <div class="editor-dots">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+        <div class="editor-filename">~/valkjin/profile.ts</div>
+        <div class="editor-lang">TS</div>
+      </div>
+      <div class="editor-body" id="editorBody" data-state="error" role="button" tabindex="0" aria-label="点击编辑器切换代码状态">
+        <div class="code-content" id="codeContent" role="img" aria-label="valkjin 开发者简介代码片段">
+          <div class="code-line"><span class="tok-comment">// valkjin — creative developer</span></div>
+          <div class="code-line"><span class="tok-kw">const</span> <span class="tok-var">developer</span> <span class="tok-punct">=</span> <span class="tok-punct">{</span></div>
+          <div class="code-line indent"><span class="tok-var">role</span><span class="tok-punct">:</span> <span class="tok-str">"前端架构 × AI"</span><span class="tok-punct">,</span></div>
+          <div class="code-line indent error-line"><span class="tok-var">stack</span><span class="tok-punct">:</span> <span class="tok-punct">[</span><span class="tok-str">"LLM"</span><span class="tok-punct">,</span> <span class="tok-str">"自动化"</span><span class="tok-punct">,</span> <span class="tok-str">"创意工具"</span><span class="tok-punct">]</span><span class="typing-cursor">|</span></div>
+          <div class="code-line indent"><span class="tok-var">motto</span><span class="tok-punct">:</span> <span class="tok-str">"用代码点亮数字世界"</span><span class="tok-punct">,</span></div>
+          <div class="code-line indent"><span class="tok-var">status</span><span class="tok-punct">:</span> <span class="tok-str">"co-creating the future"</span></div>
+          <div class="code-line"><span class="tok-punct">}</span></div>
+          <div class="code-line"><span class="tok-comment">// </span><span class="tok-err">✖ SyntaxError: expected ','</span></div>
+        </div>
+        <span class="editor-hint" id="editorHint">▸ click to fix</span>
+      </div>
+      <div class="hero-terminal">
+        <span class="terminal-prompt">&gt;</span>
+        <input type="text" class="terminal-input" id="terminalInput" placeholder="enter code..." maxlength="10" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="editor-statusbar">
+        <span class="editor-status is-error" id="editorStatus"><span class="status-dot"></span><span class="status-text">✖ error</span></span>
+        <div class="editor-actions">
+          <a href="https://Chaniug.github.io/chaniugv2/" target="_blank" rel="noopener" class="action-btn" title="个人主页" aria-label="个人主页">
+            <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5" /><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.2" /><line x1="2" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="1" opacity="0.5" /><path d="M10 2a12 12 0 010 16" stroke="currentColor" stroke-width="1" opacity="0.5" /></svg>
+          </a>
+          <a href="https://x.com/valkjin" target="_blank" rel="noopener" class="action-btn" title="X (Twitter)" aria-label="X (Twitter)">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M3 3l5.5 7.5L3 17h1.3l4.8-5.6 3.9 5.6H17l-5.8-7.9L16 3h-1.3l-4.4 5.2L6.7 3H3z" fill="currentColor" /></svg>
+          </a>
+          <a href="https://t.me/valkjin" target="_blank" rel="noopener" class="action-btn" title="Telegram" aria-label="Telegram">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M2.5 9.5l5 2 2 5L15.5 3.5l-13 6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /></svg>
+          </a>
+          <a href="mailto:you@example.com" class="action-btn" title="邮箱" aria-label="邮箱">
+            <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" /><path d="M2 6l8 6 8-6" stroke="currentColor" stroke-width="1.5" /></svg>
+          </a>
+          <a href="https://github.com/Chaniug" target="_blank" rel="noopener" class="action-btn" title="GitHub" aria-label="GitHub">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M8 16.5c-3 .8-3-1.5-4.5-2m9 7v-3.3c0-1-.3-1.7-.8-2.1 2.8-.3 5.8-1.4 5.8-6.2 0-1.4-.5-2.5-1.3-3.4.1-.3.6-1.6-.2-3.3 0 0-1-.3-3.4 1.3a11.7 11.7 0 00-6.2 0C4.9.6 3.8.9 3.8.9c-.7 1.7-.2 3-.1 3.3A4.9 4.9 0 002.3 7.6c0 4.8 3 5.9 5.8 6.2-.5.4-.8 1.1-.8 2.1V19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#about" class="scroll-hint" aria-label="向下滚动探索更多内容">
+    <span class="scroll-hint-label">// scroll to explore</span>
+    <span class="scroll-hint-arrow" aria-hidden="true">↓</span>
+  </a>
+</section>
+
+<script>
+  // 编辑器三态点击切换（装饰性微交互）
+  const editor = document.getElementById('editorBody');
+  const statusEl = document.getElementById('editorStatus');
+  const states = ['error', 'fixed', 'result'];
+  const statusText: Record<string, string> = {
+    error: '✖ error',
+    fixed: '✓ fixed',
+    result: '▶ result',
+  };
+  let idx = 0;
+  function cycle() {
+    if (!editor) return;
+    idx = (idx + 1) % states.length;
+    const s = states[idx];
+    editor.setAttribute('data-state', s);
+    if (statusEl) {
+      statusEl.className = `editor-status is-${s}`;
+      const t = statusEl.querySelector('.status-text');
+      if (t) t.textContent = statusText[s];
+    }
+    editor.classList.remove('shake');
+    void editor.offsetWidth;
+    editor.classList.add('shake');
+  }
+  editor?.addEventListener('click', cycle);
+  editor?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      cycle();
+    }
+  });
+
+  // 终端彩蛋：输入触发词 → 广播事件，由 EasterEgg 组件接收
+  const term = document.getElementById('terminalInput') as HTMLInputElement | null;
+  term?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && term.value.trim() === 'your-qq') {
+      window.dispatchEvent(new CustomEvent('open-easter-egg'));
+      term.value = '';
+    }
+  });
+</script>

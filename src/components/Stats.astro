@@ -1,0 +1,162 @@
+---
+import { site } from '../data/site';
+
+const counters = [
+  {
+    target: site.stats.commits,
+    suffix: '',
+    label: 'Total Commits',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>',
+  },
+  {
+    target: site.stats.stars,
+    suffix: '',
+    label: 'Stars Earned',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  },
+  {
+    target: site.stats.repos,
+    suffix: '',
+    label: 'Repositories',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>',
+  },
+  {
+    target: site.stats.years,
+    suffix: '+',
+    label: 'Years Coding',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  },
+];
+---
+<section id="stats" class="section">
+  <div class="section-inner">
+    <div class="section-label reveal">
+      <span class="label-line"></span>
+      <span class="label-text">S T A T I S T I C S</span>
+      <span class="label-line"></span>
+    </div>
+
+    <div class="stats-counters" id="statsCounters">
+      {
+        counters.map((c) => (
+          <div class="stat-counter-card glass-card reveal">
+            <div class="counter-icon" set:html={c.icon} />
+            <span class="counter-number" data-target={c.target} data-suffix={c.suffix}>0</span>
+            <span class="counter-label">{c.label}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="stats-motto reveal">
+      <span class="stats-motto-cn">履霜，坚冰至</span>
+      <span class="stats-motto-sep">—</span>
+      <span class="stats-motto-en">Dripping water hollows out stone.</span>
+    </div>
+
+    <div class="stats-charts">
+      <div class="stat-card glass-card reveal stat-card-chart">
+        <div class="stat-card-accent accent-lang"></div>
+        <p class="stat-label">
+          <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2" /><circle cx="8" cy="5" r="2.5" fill="currentColor" opacity="0.3" /><circle cx="8" cy="11" r="1.2" fill="currentColor" opacity="0.6" /></svg>
+          语言分布
+        </p>
+        <img src={site.summaryCard('repos-per-language')} alt="GitHub 仓库语言分布统计图" width="340" height="240" loading="lazy" />
+      </div>
+      <div class="stat-card glass-card reveal stat-card-chart">
+        <div class="stat-card-accent accent-commit"></div>
+        <p class="stat-label">
+          <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2" /><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.2" /></svg>
+          提交语言
+        </p>
+        <img src={site.summaryCard('most-commit-language')} alt="GitHub 最常提交语言统计图" width="340" height="240" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="stat-card glass-card reveal stat-card-full">
+      <p class="stat-label">
+        <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.9" /><rect x="5" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.6" /><rect x="9" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.3" /><rect x="13" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.15" /><rect x="1" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.7" /><rect x="5" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.4" /><rect x="9" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.8" /><rect x="13" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.2" /><rect x="1" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.3" /><rect x="5" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.9" /><rect x="9" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.5" /><rect x="13" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.15" /><rect x="1" y="13" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.2" /><rect x="5" y="13" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.7" /></svg>
+        贡献概览
+      </p>
+      <img src={site.summaryCard('profile-details')} alt="GitHub 贡献热力图" width="720" height="200" loading="lazy" />
+    </div>
+
+    <div class="stat-card glass-card reveal stat-card-full">
+      <p class="stat-label">
+        <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><path d="M2 8l2-6h8l2 6-6 2-6-2z" stroke="currentColor" stroke-width="1" /><circle cx="8" cy="8" r="1.5" fill="currentColor" opacity="0.5" /></svg>
+        贡献动画
+      </p>
+      <img src={site.snakeSvg} alt="GitHub 贡献日历贪吃蛇动画" width="720" height="160" loading="lazy" />
+    </div>
+
+    <div class="recent-projects reveal">
+      <div class="section-label">
+        <span class="label-line"></span>
+        <span class="label-text">R E C E N T &nbsp; P R O J E C T S</span>
+        <span class="label-line"></span>
+      </div>
+      <div class="projects-grid" id="projectsGrid">
+        <a href="https://github.com/Chaniug/chaniugv2" target="_blank" rel="noopener" class="project-card glass-card reveal">
+          <div class="project-icon">
+            <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5" /><path d="M16 8v8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+          </div>
+          <div class="project-info">
+            <h3 class="project-name">chaniugv2</h3>
+            <p class="project-desc">个人主页网站，集成星空粒子、技能星图等动态效果</p>
+            <div class="project-tags">
+              <span class="project-tag">Astro</span>
+              <span class="project-tag">TypeScript</span>
+              <span class="project-tag">CSS</span>
+            </div>
+          </div>
+          <div class="project-stars">
+            <svg viewBox="0 0 16 16" fill="currentColor"><polygon points="8,1 10,5.5 15,6 11,9.5 12,14.5 8,12 4,14.5 5,9.5 1,6 6,5.5" /></svg>
+            <span>47</span>
+          </div>
+        </a>
+        <a href="https://github.com/Chaniug" target="_blank" rel="noopener" class="project-card glass-card reveal">
+          <div class="project-icon">
+            <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" rx="4" stroke="currentColor" stroke-width="1.5" /><path d="M12 16l3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </div>
+          <div class="project-info">
+            <h3 class="project-name">更多项目</h3>
+            <p class="project-desc">访问我的 GitHub 查看所有开源项目</p>
+            <div class="project-tags">
+              <span class="project-tag">GitHub</span>
+              <span class="project-tag">Open Source</span>
+            </div>
+          </div>
+          <div class="project-arrow">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const counters = document.querySelectorAll<HTMLElement>('.counter-number');
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target as HTMLElement;
+        const target = Number(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        const dur = 1500;
+        const start = performance.now();
+        function step(now: number) {
+          const p = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(eased * target) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        io.unobserve(el);
+      });
+    },
+    { threshold: 0.5 }
+  );
+  counters.forEach((c) => io.observe(c));
+</script>

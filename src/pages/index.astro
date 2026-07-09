@@ -1,18 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import About from '../components/About.astro';
+import Skills from '../components/Skills.astro';
+import Stats from '../components/Stats.astro';
+import Contact from '../components/Contact.astro';
+import Modal from '../components/Modal.astro';
+import EasterEgg from '../components/EasterEgg.astro';
 ---
-
 <BaseLayout>
-  <main
-    style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;"
-  >
-    <h1
-      style="font-family:var(--font-sans);font-size:clamp(2.5rem,8vw,5rem);font-weight:800;background:linear-gradient(90deg,var(--accent-blue),var(--accent-purple),var(--accent-cyan));-webkit-background-clip:text;background-clip:text;color:transparent;"
-    >
-      Chaniug-v2
-    </h1>
-    <p style="color:var(--text-secondary);font-family:var(--font-mono);">
-      Astro 重构中 · 脚手架已就绪
-    </p>
-  </main>
+  <Hero />
+  <Marquee />
+  <About />
+  <Skills />
+  <Stats />
+  <Contact />
+  <Modal />
+  <EasterEgg />
 </BaseLayout>
