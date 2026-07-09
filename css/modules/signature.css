@@ -1,0 +1,120 @@
+/* ============================================================
+   SIGNATURE MODULE
+   ============================================================ */
+
+/* ============================================================
+   HERO SIGNATURE — 动态签名
+   ============================================================ */
+.hero-signature {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: min(80vw, 480px);
+    margin: 0 auto;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-signature.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 内层 wrapper */
+.signature-inner {
+    width: 100%;
+}
+
+.signature-inner svg {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    transition: filter 1.5s ease-out;
+}
+
+/* 签名动画完成后的发光效果 — 与橙金→粉→青渐变协调 */
+.signature-inner .svg-glow {
+    filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.5))
+            drop-shadow(0 0 8px rgba(244, 114, 182, 0.3))
+            drop-shadow(0 0 16px rgba(34, 211, 238, 0.2));
+    animation: signature-glow 3.5s ease-in-out infinite;
+}
+
+/* 移动端性能优化：禁用耗性能的发光效果和非必要动画 */
+@media (max-width: 768px) {
+    .signature-inner .svg-glow {
+        filter: none;
+        animation: none;
+    }
+
+    /* 保留必要动画：光标闪烁、状态脉冲 */
+    /* .cursor-blink, .statusPulse 保持不变 */
+}
+
+/* 尊重用户偏好：减少动画 */
+@media (prefers-reduced-motion: reduce) {
+    .signature-inner .svg-glow {
+        animation: none;
+        filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.3));
+    }
+}
+
+/* 柔和脉冲发光 */
+@keyframes signature-glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.3))
+                drop-shadow(0 0 6px rgba(244, 114, 182, 0.15))
+                drop-shadow(0 0 12px rgba(34, 211, 238, 0.1));
+    }
+    50% {
+        filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.6))
+                drop-shadow(0 0 12px rgba(244, 114, 182, 0.35))
+                drop-shadow(0 0 24px rgba(34, 211, 238, 0.25));
+    }
+}
+
+/* 签名 path 默认样式（由 JS 动态设置 stroke-dashoffset 动画） */
+.signature-inner svg path {
+    /* JS 会动态设置 stroke / fill / stroke-dasharray / stroke-dashoffset */
+}
+
+/* ============================================================
+   SIGNATURE SYNC — 签名联动状态（与头像/代码框协同）
+   ============================================================ */
+
+/* error 态：签名微红 tint */
+[data-sync-state="error"] .signature-inner svg {
+    filter: hue-rotate(-20deg) saturate(0.85) brightness(0.95);
+    transition: filter 0.4s ease;
+}
+
+/* fixed 态：签名微绿 tint */
+[data-sync-state="fixed"] .signature-inner svg {
+    filter: hue-rotate(40deg) saturate(1.1) brightness(1.03);
+    transition: filter 0.4s ease;
+}
+
+/* result 态：签名发光脉动加快 */
+[data-sync-state="result"] .signature-inner .svg-glow {
+    animation-duration: 2s;
+}
+
+/* hover 同步：签名发光增强 15% */
+[data-hero-hover] .signature-inner .svg-glow {
+    filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.6))
+            drop-shadow(0 0 10px rgba(244, 114, 182, 0.35))
+            drop-shadow(0 0 18px rgba(34, 211, 238, 0.25));
+}
+
+/* 尊重减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+    [data-sync-state="error"] .signature-inner svg,
+    [data-sync-state="fixed"] .signature-inner svg {
+        filter: none;
+    }
+}
+

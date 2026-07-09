@@ -1,0 +1,30 @@
+{
+  "name": "chaniug",
+  "version": "1.0.0",
+  "description": "Chaniug personal website - dark tech-style portfolio",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "node css/build.js",
+    "dev:css": "node css/build.js --watch",
+    "build": "npm run build:css"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chaniug/Chaniug.git"
+  },
+  "keywords": [],
+  "author": "Valkjin",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Chaniug/Chaniug/issues"
+  },
+  "homepage": "https://valk.ccwu.cc/",
+  "devDependencies": {
+    "esbuild": "^0.28.1"
+  }
+}
