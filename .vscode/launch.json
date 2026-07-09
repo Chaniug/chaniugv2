@@ -16,7 +16,7 @@
             "type": "msedge",
             "request": "launch",
             "name": "Open my.html",
-            "file": "d:\\mychaniug\\Chaniug\\my.html"
+            "file": "d:\\Chaniug-v2\\index.html"
         }
     ]
 }

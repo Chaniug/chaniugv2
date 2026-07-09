@@ -63,7 +63,7 @@ function buildCSS() {
 
     // 添加文件头注释
     const header = `/**
- * Chaniug Personal Website - Main Stylesheet
+ * Personal Website - Main Stylesheet
  * 由 build.js 自动生成，请勿直接编辑此文件
  * 编辑 css/modules/ 下的模块文件后运行: npm run build:css
  *

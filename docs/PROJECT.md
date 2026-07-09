@@ -1,4 +1,4 @@
-# Chaniug 个人主页 — 项目技术文档
+# 个人主页 — 项目技术文档
 
 > 面向 AI 智能体及开发者，快速理解项目结构、技术栈、构建流程与维护方式。
 
@@ -8,11 +8,11 @@
 
 | 属性 | 值 |
 |------|-----|
-| **项目名称** | Chaniug（Valkjin 个人主页） |
+| **项目名称** | Valkjin 个人主页 |
 | **类型** | 纯静态单页网站（SPA） |
 | **作者** | Valkjin（GitHub: [Chaniug](https://github.com/Chaniug)） |
 | **许可证** | MIT |
-| **线上地址** | `https://valk.ccwu.cc/` |
+| **线上地址** | `https://your-domain.example.com/` |
 | **部署方式** | GitHub Pages（通过 `.github/workflows/jekyll-gh-pages.yml` 自动部署） |
 | **设计风格** | 深色科技风 + 玻璃拟态 + 星空粒子背景 |
 | **技术栈** | HTML5 + CSS3 + 原生 JavaScript（无框架） |
@@ -22,11 +22,11 @@
 ## 2. 目录结构
 
 ```
-Chaniug/
+chaniugv2/
 ├── index.html                    # ★ 唯一 HTML 页面，SPA 入口
 ├── package.json                  # Node.js 项目配置（仅用于 CSS 构建）
 ├── README.md                     # GitHub Profile README
-├── CNAME                         # 自定义域名：valk.ccwu.cc
+├── CNAME                         # 自定义域名：your-domain.example.com
 ├── LICENSE                       # MIT 许可证
 ├── .nojekyll                     # 禁用 GitHub Pages Jekyll 处理
 │
