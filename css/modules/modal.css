@@ -22,17 +22,14 @@
     height: 56px;
     margin: 0.4rem auto 0.8rem;
     border-radius: 16px;
-    background: linear-gradient(135deg,
-        rgba(79, 140, 255, 0.16) 0%,
-        rgba(168, 85, 247, 0.16) 100%);
-    border: 1px solid rgba(79, 140, 255, 0.22);
+    background: var(--accent-soft);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(79, 140, 255, 0.14),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 16px rgba(20, 20, 30, 0.08);
 }
 
 /* 旋转渐变边框 — 默认暂停，仅 inline 展开时启动，避免未展开卡片持续合成 */
@@ -42,13 +39,7 @@
     inset: -2px;
     border-radius: 18px;
     padding: 2px;
-    background: conic-gradient(
-        from 0deg,
-        var(--accent-blue),
-        var(--accent-purple),
-        var(--accent-cyan),
-        var(--accent-blue)
-    );
+    background: var(--accent);
     -webkit-mask: linear-gradient(#fff 0 0) content-box,
                   linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -68,9 +59,7 @@
     width: 130%;
     height: 130%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(79, 140, 255, 0.18) 0%, transparent 65%);
-    animation: icon-glow-pulse 4s ease-in-out infinite;
-    animation-play-state: paused;
+    background: transparent;
     pointer-events: none;
 }
 
@@ -103,12 +92,9 @@
 
 /* 各卡片 inline 详情区配色 */
 .explore-card .inline-detail-icon-wrapper {
-    background: linear-gradient(135deg,
-        rgba(168, 85, 247, 0.16) 0%,
-        rgba(79, 140, 255, 0.16) 100%);
-    border-color: rgba(168, 85, 247, 0.22);
-    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.14),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: var(--accent-soft);
+    border-color: var(--border);
+    box-shadow: 0 4px 16px rgba(20, 20, 30, 0.08);
 }
 .explore-card .inline-detail-body .tech-tag {
     background: rgba(168, 85, 247, 0.08);
@@ -119,12 +105,9 @@
 }
 
 .tech-card .inline-detail-icon-wrapper {
-    background: linear-gradient(135deg,
-        rgba(34, 211, 238, 0.16) 0%,
-        rgba(168, 85, 247, 0.16) 100%);
-    border-color: rgba(34, 211, 238, 0.22);
-    box-shadow: 0 4px 16px rgba(34, 211, 238, 0.14),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: var(--accent-soft);
+    border-color: var(--border);
+    box-shadow: 0 4px 16px rgba(20, 20, 30, 0.08);
 }
 .tech-card .inline-detail-body .tech-tag {
     background: rgba(34, 211, 238, 0.08);
@@ -135,12 +118,9 @@
 }
 
 .create-card .inline-detail-icon-wrapper {
-    background: linear-gradient(135deg,
-        rgba(250, 204, 21, 0.16) 0%,
-        rgba(192, 132, 252, 0.16) 100%);
-    border-color: rgba(250, 204, 21, 0.22);
-    box-shadow: 0 4px 16px rgba(250, 204, 21, 0.14),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: var(--accent-soft);
+    border-color: var(--border);
+    box-shadow: 0 4px 16px rgba(20, 20, 30, 0.08);
 }
 .create-card .inline-detail-body .tech-tag {
     background: rgba(250, 204, 21, 0.08);
@@ -289,10 +269,7 @@
     color: var(--text-primary);
     letter-spacing: 0.04em;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
 }
 
 .ee-text {
@@ -313,7 +290,7 @@
 }
 
 .ee-signature {
-    font-family: 'Dancing Script', cursive;
+    font-family: var(--font-display);
     font-size: 1.3rem;
     color: var(--text-muted);
     letter-spacing: 0.04em;

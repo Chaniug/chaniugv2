@@ -1,5 +1,5 @@
 /* ============================================================
-   NAVIGATION MODULE
+   NAVIGATION MODULE — 极简编辑风
    ============================================================ */
 
 /* ============================================================
@@ -12,20 +12,18 @@
     right: 0;
     z-index: 1000;
     height: 60px;
-    background: rgba(10, 10, 20, 0.12);
-    -webkit-backdrop-filter: blur(8px) saturate(140%);
-    backdrop-filter: blur(8px) saturate(140%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, backdrop-filter 0.5s ease;
+    background: color-mix(in srgb, var(--bg-deep) 72%, transparent);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-bottom: 1px solid transparent;
+    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* 滚动后加深 */
+/* 滚动后加深 + 发丝边 */
 .site-nav.scrolled {
-    background: rgba(10, 10, 20, 0.55);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    backdrop-filter: blur(18px) saturate(180%);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+    background: color-mix(in srgb, var(--bg-elevated) 85%, transparent);
+    border-bottom-color: var(--border);
+    box-shadow: 0 1px 0 rgba(20, 20, 30, 0.03);
 }
 
 .nav-inner {
@@ -47,61 +45,47 @@
     color: var(--text-primary);
     font-weight: 700;
     font-size: 1.05rem;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
     z-index: 1001;
     transition: opacity 0.3s ease;
 }
-.nav-logo:hover {
-    opacity: 0.85;
-}
-.nav-logo svg {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-}
+.nav-logo:hover { opacity: 0.7; }
+.nav-logo svg { width: 28px; height: 28px; flex-shrink: 0; }
 
-/* ---- 导航链接列表（胶囊） ---- */
+/* ---- 导航链接列表 ---- */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 0.25rem;
+    gap: 0.15rem;
 }
 
 .nav-link {
     display: block;
-    padding: 0.45rem 1.1rem;
+    padding: 0.45rem 1.05rem;
     font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-secondary);
     text-decoration: none;
-    border-radius: 20px;
-    letter-spacing: 0.02em;
-    transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    border-radius: 18px;
+    letter-spacing: 0.01em;
+    transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
     position: relative;
 }
 .nav-link:hover {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.07);
+    background: var(--bg-subtle);
     transform: translateY(-1px);
-    box-shadow: 0 2px 12px rgba(79, 140, 255, 0.08);
 }
-.nav-link.active {
-    color: var(--accent-blue);
-}
+.nav-link.active { color: var(--accent); }
 
-/* ---- 发光胶囊指示器 ---- */
+/* ---- 指示器：单色发丝下划线，无外发光 ---- */
 .nav-indicator {
     position: absolute;
-    bottom: 0;
+    bottom: 2px;
     left: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
-    border-radius: 3px;
-    box-shadow:
-        0 0 6px rgba(79, 140, 255, 0.7),
-        0 0 18px rgba(168, 85, 247, 0.35),
-        0 0 36px rgba(79, 140, 255, 0.12);
-    /* 用 transform 定位走 GPU 合成，避免重排 */
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
     transform: translateX(0);
     will-change: transform, width;
     transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1.2),
@@ -110,9 +94,7 @@
     opacity: 0;
     pointer-events: none;
 }
-.nav-indicator.visible {
-    opacity: 1;
-}
+.nav-indicator.visible { opacity: 1; }
 
 /* ---- 移动端汉堡菜单按钮 ---- */
 .nav-toggle {
@@ -131,9 +113,7 @@
     border-radius: 8px;
     transition: background 0.3s ease;
 }
-.nav-toggle:hover {
-    background: rgba(255, 255, 255, 0.06);
-}
+.nav-toggle:hover { background: var(--bg-subtle); }
 .nav-toggle-bar {
     display: block;
     width: 22px;
@@ -146,46 +126,14 @@
 }
 
 /* 激活态：变 × */
-.nav-toggle.active .nav-toggle-bar:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-.nav-toggle.active .nav-toggle-bar:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0);
-}
-.nav-toggle.active .nav-toggle-bar:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
+.nav-toggle.active .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.active .nav-toggle-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.active .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ---- 全局 active 按压缩放反馈 ---- */
-/* 导航链接 */
-.nav-link:active {
-    transform: translateY(0) scale(0.96);
-    transition-duration: 0.1s;
-}
-
-/* 汉堡菜单按钮 */
-.nav-toggle:active {
-    transform: scale(0.92);
-    transition-duration: 0.1s;
-}
-
-/* 社交链接 */
-.social-link:active {
-    transform: scale(0.95);
-    transition-duration: 0.1s;
-}
-
-/* 中央月球核心 */
-.constellation-core:active .core-dot {
-    transform: translate(-50%, -50%) scale(0.9);
-    transition-duration: 0.15s;
-}
-
-/* 通用按钮类 */
+.nav-link:active { transform: translateY(0) scale(0.96); transition-duration: 0.1s; }
+.nav-toggle:active { transform: scale(0.92); transition-duration: 0.1s; }
+.social-link:active { transform: scale(0.95); transition-duration: 0.1s; }
+.constellation-core:active .core-dot { transform: translate(-50%, -50%) scale(0.9); transition-duration: 0.15s; }
 .btn:active,
-button:active:not(.nav-toggle):not(.tech-modal-close) {
-    transform: scale(0.96);
-    transition-duration: 0.1s;
-}
-
+button:active:not(.nav-toggle):not(.tech-modal-close) { transform: scale(0.96); transition-duration: 0.1s; }

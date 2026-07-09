@@ -54,13 +54,13 @@
 .contact-card[data-platform="email"]:hover .contact-icon  { color: #EA4335; }
 .contact-card[data-platform="github"]:hover .contact-icon { color: #e6e6e6; }
 
-.contact-card[data-platform="web"]:hover    { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(192,132,252,0.2); }
-.contact-card[data-platform="x"]:hover      { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(29,161,242,0.2); }
-.contact-card[data-platform="tg"]:hover     { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(38,165,228,0.2); }
-.contact-card[data-platform="wechat"]:hover  { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(7,193,96,0.2); }
-.contact-card[data-platform="qq"]:hover      { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(18,183,245,0.2); }
-.contact-card[data-platform="email"]:hover  { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(234,67,53,0.2); }
-.contact-card[data-platform="github"]:hover { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(230,230,230,0.15); }
+.contact-card[data-platform="web"]:hover    { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px var(--border); }
+.contact-card[data-platform="x"]:hover      { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px var(--border); }
+.contact-card[data-platform="tg"]:hover     { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px var(--border); }
+.contact-card[data-platform="wechat"]:hover  { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px var(--border); }
+.contact-card[data-platform="qq"]:hover      { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px var(--border); }
+.contact-card[data-platform="email"]:hover  { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px var(--border); }
+.contact-card[data-platform="github"]:hover { box-shadow: 0 14px 44px rgba(0,0,0,0.55), inset 0 0 0 1px var(--border); }
 
 .contact-card[data-platform="web"]:hover .contact-name    { color: #c084fc; }
 .contact-card[data-platform="x"]:hover .contact-name      { color: #1DA1F2; }
@@ -72,7 +72,7 @@
 
 .contact-card:hover {
     transform: translateY(-6px) scale(1.03);
-    border-color: rgba(255, 255, 255, 0.25);
+    border-color: var(--border-strong);
     background: var(--glass-hover);
 }
 
@@ -91,7 +91,7 @@
 
 .contact-card:hover .contact-icon {
     transform: scale(1.15);
-    filter: drop-shadow(0 0 8px currentColor);
+    filter: none;
 }
 
 .contact-name {

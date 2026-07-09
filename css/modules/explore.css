@@ -31,8 +31,8 @@
     font-weight: 500;
     letter-spacing: 0.02em;
     border-radius: 9999px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    background: var(--bg-subtle);
     color: var(--text-secondary);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
@@ -53,12 +53,12 @@
 }
 
 /* 各 chip 的个性化底色 */
-.chip-llm  { --chip-glow: rgba(79, 140, 255, 0.3);  --chip-bg: rgba(79, 140, 255, 0.08);  }
-.chip-agent { --chip-glow: rgba(168, 85, 247, 0.3);  --chip-bg: rgba(168, 85, 247, 0.08);  }
-.chip-edge { --chip-glow: rgba(34, 211, 238, 0.3);   --chip-bg: rgba(34, 211, 238, 0.08);   }
-.chip-fe    { --chip-glow: rgba(79, 140, 255, 0.3);   --chip-bg: rgba(79, 140, 255, 0.08);   }
-.chip-be    { --chip-glow: rgba(168, 85, 247, 0.3);   --chip-bg: rgba(168, 85, 247, 0.08);   }
-.chip-infra { --chip-glow: rgba(34, 211, 238, 0.3);    --chip-bg: rgba(34, 211, 238, 0.08);    }
+.chip-llm  { --chip-accent: var(--accent-blue);   --chip-bg: var(--accent-soft); }
+.chip-agent { --chip-accent: var(--accent-purple); --chip-bg: var(--accent-soft); }
+.chip-edge { --chip-accent: var(--accent-cyan);    --chip-bg: var(--accent-soft); }
+.chip-fe    { --chip-accent: var(--accent-blue);   --chip-bg: var(--accent-soft); }
+.chip-be    { --chip-accent: var(--accent-purple); --chip-bg: var(--accent-soft); }
+.chip-infra { --chip-accent: var(--accent-cyan);    --chip-bg: var(--accent-soft); }
 
 .explore-chip::before {
     content: '';
@@ -72,11 +72,10 @@
 
 .explore-chip:hover {
     color: var(--text-primary);
-    border-color: var(--chip-glow);
+    border-color: var(--chip-accent);
+    background: var(--chip-bg);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px -6px var(--chip-glow),
-                0 0 12px var(--chip-glow),
-                inset 0 0 8px var(--chip-bg);
+    box-shadow: 0 6px 18px -6px rgba(20, 20, 30, 0.14);
     letter-spacing: 0.04em;
 }
 
@@ -88,9 +87,9 @@
 /* 激活态 — 被选中展开详情的 Chip */
 .explore-chip.active {
     color: var(--text-primary);
-    border-color: var(--chip-glow);
+    border-color: var(--chip-accent);
     background: var(--chip-bg);
-    box-shadow: 0 0 16px var(--chip-glow), inset 0 0 12px var(--chip-bg);
+    box-shadow: none;
     transform: translateY(-2px);
 }
 
@@ -102,7 +101,7 @@
 .explore-chip[data-explore]:focus-visible,
 .explore-chip[data-create]:focus-visible,
 .explore-chip[data-tech]:focus-visible {
-    outline: 2px solid var(--chip-glow, var(--accent-blue));
+    outline: 2px solid var(--chip-accent, var(--accent));
     outline-offset: 2px;
 }
 
@@ -114,8 +113,8 @@
 .explore-card:hover .explore-chip,
 .create-card:hover .explore-chip,
 .tech-card:hover .explore-chip {
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 8px var(--chip-glow, rgba(79, 140, 255, 0.15));
+    border-color: var(--border-strong);
+    box-shadow: none;
 }
 
 /* 整卡 hover 时 chip 内底色微亮 */
@@ -162,8 +161,8 @@
 
 /* 创造卡片 chip 专属配色 — 暖金调 */
 .chip-create {
-    --chip-glow: rgba(250, 204, 21, 0.35);
-    --chip-bg: rgba(250, 204, 21, 0.08);
+    --chip-accent: var(--accent);
+    --chip-bg: var(--accent-soft);
 }
 
 /* 创造卡片补充描述 */

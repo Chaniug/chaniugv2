@@ -2,38 +2,29 @@
 import signatureSvg from '../../public/img/valkjin.svg?raw';
 const base = import.meta.env.BASE_URL;
 ---
-<section id="hero" class="section">
+<section id="hero" class="section hero">
   <div class="section-inner hero-content">
-    <!-- Hero 科技轨道装饰环 -->
-    <div class="hero-orbits" aria-hidden="true">
-      <div class="orbit-ring ring-1"></div>
-      <div class="orbit-ring ring-2"></div>
-      <div class="orbit-ring ring-3"></div>
-    </div>
+    <p class="hero-eyebrow reveal">Creative Developer · AI · 前端 · 自动化</p>
 
-    <!-- 渐变标题 + 打字机身份 -->
-    <h1 class="hero-title reveal" aria-label="Valkjin">
-      <span class="hero-title-text">Valkjin</span>
-    </h1>
+    <h1 class="hero-title reveal" aria-label="Valkjin">Valkjin</h1>
+
     <p class="hero-typed reveal" aria-label="身份标语">
-      <span id="typed"></span><span class="caret" aria-hidden="true">|</span>
+      <span id="typed"></span><span class="caret" aria-hidden="true"></span>
     </p>
 
-    <!-- 头像（含旋转光环） -->
-    <div class="avatar-wrapper reveal">
-      <div class="hero-aura" aria-hidden="true"></div>
-      <div class="avatar" title="valkjin">
-        <picture>
-          <source srcset={`${base}img/avatar.webp`} type="image/webp" />
-          <img src={`${base}img/avatar.jpg`} alt="valkjin 头像" width="120" height="120" />
-        </picture>
-        <span class="avatar-status" title="在线"></span>
+    <div class="hero-avatar-row reveal">
+      <div class="avatar-wrapper">
+        <div class="avatar" title="valkjin">
+          <picture>
+            <source srcset={`${base}img/avatar.webp`} type="image/webp" />
+            <img src={`${base}img/avatar.jpg`} alt="valkjin 头像" width="120" height="120" />
+          </picture>
+          <span class="avatar-status" title="在线"></span>
+        </div>
       </div>
-    </div>
-
-    <!-- 签名 -->
-    <div class="hero-signature reveal" id="heroSignature" aria-label="Valkjin 签名" role="img">
-      <div class="signature-inner" set:html={signatureSvg}></div>
+      <div class="hero-signature" id="heroSignature" aria-label="Valkjin 签名" role="img">
+        <div class="signature-inner" set:html={signatureSvg}></div>
+      </div>
     </div>
 
     <!-- 代码编辑器（3 态交互占位） -->
@@ -120,7 +111,7 @@ const base = import.meta.env.BASE_URL;
   const editor = document.getElementById('editorBody');
   const statusEl = document.getElementById('editorStatus');
   const states = ['error', 'fixed', 'result'];
-  const statusText: Record<string, string> = {
+  const statusText = {
     error: '✖ error',
     fixed: '✓ fixed',
     result: '▶ result',
@@ -149,7 +140,7 @@ const base = import.meta.env.BASE_URL;
   });
 
   // 终端彩蛋：输入触发词 → 广播事件，由 EasterEgg 组件接收
-  const term = document.getElementById('terminalInput') as HTMLInputElement | null;
+  const term = document.getElementById('terminalInput');
   term?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && term.value.trim() === 'your-qq') {
       window.dispatchEvent(new CustomEvent('open-easter-egg'));

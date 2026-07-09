@@ -79,7 +79,8 @@ const personSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0a0a14" />
+    <meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f11" media="(prefers-color-scheme: dark)" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}img/avatar.webp`} />
@@ -101,13 +102,7 @@ const personSchema = {
     />
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
@@ -119,29 +114,28 @@ const personSchema = {
     <!-- 首屏 critical CSS：消除主样式加载前的 FOUC（白色闪现 / 内容闪现） -->
     <style is:inline>
       :root {
-        --bg-deep: #0a0a14;
-        --text-primary: rgba(255, 255, 255, 0.92);
-        --text-secondary: rgba(255, 255, 255, 0.65);
-        --accent-blue: #4f8cff;
-        --accent-purple: #a855f7;
-        --accent-cyan: #22d3ee;
+        --bg-deep: #f7f6f3;
+        --text-primary: #16161a;
+        --text-secondary: #56565e;
+        --accent-blue: #2f5bd0;
+        --accent-purple: #6b54b8;
+        --accent-cyan: #1f8aa3;
       }
       *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
       html, body {
-        background: #0a0a14;
-        color: rgba(255, 255, 255, 0.92);
+        background: #f7f6f3;
+        color: #16161a;
         font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
       }
       .site-nav {
         position: fixed; top: 0; left: 0; right: 0; height: 60px;
-        background: rgba(10, 10, 20, 0.12);
+        background: rgba(247, 246, 243, 0.7);
         -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
         z-index: 1000;
       }
       .reveal { opacity: 0; }
       .easter-egg-overlay { visibility: hidden; opacity: 0; }
-      #tsparticles, #bg-field .orb { position: fixed; }
       .skip-link {
         position: fixed; top: -100px; left: 12px; z-index: 2000;
         padding: 10px 18px; border-radius: 10px;

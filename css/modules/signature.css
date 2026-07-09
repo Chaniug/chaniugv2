@@ -38,9 +38,7 @@
 
 /* 签名动画完成后的发光效果 — 与橙金→粉→青渐变协调 */
 .signature-inner .svg-glow {
-    filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.5))
-            drop-shadow(0 0 8px rgba(244, 114, 182, 0.3))
-            drop-shadow(0 0 16px rgba(34, 211, 238, 0.2));
+    filter: none;
     animation: signature-glow 3.5s ease-in-out infinite;
 }
 
@@ -59,21 +57,17 @@
 @media (prefers-reduced-motion: reduce) {
     .signature-inner .svg-glow {
         animation: none;
-        filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.3));
+        filter: none;
     }
 }
 
 /* 柔和脉冲发光 */
 @keyframes signature-glow {
     0%, 100% {
-        filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.3))
-                drop-shadow(0 0 6px rgba(244, 114, 182, 0.15))
-                drop-shadow(0 0 12px rgba(34, 211, 238, 0.1));
+        filter: none;
     }
     50% {
-        filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.6))
-                drop-shadow(0 0 12px rgba(244, 114, 182, 0.35))
-                drop-shadow(0 0 24px rgba(34, 211, 238, 0.25));
+        filter: none;
     }
 }
 
@@ -105,9 +99,7 @@
 
 /* hover 同步：签名发光增强 15% */
 [data-hero-hover] .signature-inner .svg-glow {
-    filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.6))
-            drop-shadow(0 0 10px rgba(244, 114, 182, 0.35))
-            drop-shadow(0 0 18px rgba(34, 211, 238, 0.25));
+    filter: none;
 }
 
 /* 尊重减少动画偏好 */

@@ -1,24 +1,9 @@
 ---
-// 背景层：用 @tsparticles/slim 替代原手写的三层 canvas 星空（更专业、可维护、自带 reduced-motion 闸门）
-// 保留 orbs / overlays / spotlight 等 CSS 装饰（样式来自全局 css/modules）
+// 极简背景层：纸感径向微光 + 极淡颗粒纹理
+// 无粒子 / 无极光 / 无光球，纯静态，零运行时开销
 ---
 <div id="bg-field" aria-hidden="true">
-  <div id="aurora">
-    <span class="aurora-blob a1"></span>
-    <span class="aurora-blob a2"></span>
-    <span class="aurora-blob a3"></span>
-    <span class="aurora-blob a4"></span>
-  </div>
-  <div id="tsparticles"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
-  <div id="spotlight"></div>
-  <div class="noise-overlay"></div>
-  <div class="grid-overlay"></div>
-  <div class="scanline-overlay"></div>
-  <div class="hex-mesh-overlay"></div>
+  <div class="bg-grain"></div>
 </div>
 
 <style>
@@ -27,173 +12,28 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    overflow: hidden;
-  }
-  #tsparticles {
-    position: absolute;
-    inset: 0;
-  }
-  #spotlight {
-    position: absolute;
-    inset: 0;
     background: radial-gradient(
-      620px circle at var(--mx, 50%) var(--my, 50%),
-      rgba(79, 140, 255, 0.12),
-      transparent 60%
+      125% 80% at 50% -12%,
+      var(--accent-soft),
+      transparent 58%
     );
-    transition: background 0.2s ease;
   }
-
-  /* ============================================================
-     AURORA — 极光 mesh 渐变层（老项目无此元素，核心视觉差异）
-     四个高模糊彩色 blob 缓慢漂移 + 混合，营造流动光幕
-     ============================================================ */
-  #aurora {
+  .bg-grain {
     position: absolute;
-    inset: -10%;
-    filter: blur(70px) saturate(135%);
-    opacity: 0.55;
-    z-index: 0;
+    inset: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
   }
-  .aurora-blob {
-    position: absolute;
-    width: 48vw;
-    height: 48vw;
-    border-radius: 50%;
-    mix-blend-mode: screen;
-    will-change: transform;
+  html[data-theme='dark'] #bg-field {
+    background: radial-gradient(
+      125% 80% at 50% -12%,
+      rgba(111, 155, 255, 0.07),
+      transparent 58%
+    );
   }
-  html[data-theme='light'] #aurora {
-    opacity: 0.32;
-    mix-blend-mode: multiply;
+  html[data-theme='dark'] .bg-grain {
+    opacity: 0.04;
   }
-  .aurora-blob.a1 {
-    top: -8%;
-    left: -5%;
-    background: radial-gradient(circle at 40% 40%, #4f8cff 0%, transparent 62%);
-    animation: aurora-drift-1 26s ease-in-out infinite;
-  }
-  .aurora-blob.a2 {
-    top: 8%;
-    right: -8%;
-    background: radial-gradient(circle at 60% 50%, #a855f7 0%, transparent 60%);
-    animation: aurora-drift-2 32s ease-in-out infinite;
-  }
-  .aurora-blob.a3 {
-    bottom: -12%;
-    left: 18%;
-    background: radial-gradient(circle at 50% 50%, #22d3ee 0%, transparent 58%);
-    animation: aurora-drift-3 28s ease-in-out infinite;
-  }
-  .aurora-blob.a4 {
-    bottom: 4%;
-    right: 12%;
-    background: radial-gradient(circle at 30% 60%, #c084fc 0%, transparent 60%);
-    animation: aurora-drift-4 36s ease-in-out infinite;
-  }
-  @keyframes aurora-drift-1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(10vw, 6vh) scale(1.15); }
-  }
-  @keyframes aurora-drift-2 {
-    0%, 100% { transform: translate(0, 0) scale(1.05); }
-    50%      { transform: translate(-8vw, 10vh) scale(1.2); }
-  }
-  @keyframes aurora-drift-3 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(12vw, -8vh) scale(1.1); }
-  }
-  @keyframes aurora-drift-4 {
-    0%, 100% { transform: translate(0, 0) scale(1.1); }
-    50%      { transform: translate(-10vw, -6vh) scale(1); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .aurora-blob { animation: none !important; }
-  }
-  /* 滚动时暂停极光漂移（性能） */
-  body.is-scrolling .aurora-blob { animation-play-state: paused; }
 </style>
-
-<script>
-  import { tsParticles } from '@tsparticles/engine';
-  import { loadSlim } from '@tsparticles/slim';
-
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  async function initParticles() {
-    await loadSlim(tsParticles);
-    await tsParticles.load({
-      id: 'tsparticles',
-      options: {
-        fullScreen: { enable: false },
-        background: { color: 'transparent' },
-        fpsLimit: 60,
-        particles: {
-          number: {
-            value: reduced ? 40 : 170,
-            density: { enable: true, area: 900 },
-          },
-          color: { value: ['#4f8cff', '#a855f7', '#22d3ee'] },
-          shape: { type: 'circle' },
-          opacity: {
-            value: { min: 0.2, max: 0.85 },
-            animation: { enable: !reduced, speed: 0.6, sync: false },
-          },
-          size: { value: { min: 0.6, max: 2.4 } },
-          links: {
-            enable: true,
-            distance: 130,
-            color: '#4f8cff',
-            opacity: 0.14,
-            width: 1,
-          },
-          move: {
-            enable: !reduced,
-            speed: 0.45,
-            direction: 'none',
-            random: true,
-            outModes: { default: 'out' },
-          },
-        },
-        interactivity: {
-          events: {
-            onHover: { enable: !reduced, mode: 'grab' },
-            onClick: { enable: false },
-          },
-          modes: {
-            grab: { distance: 170, links: { opacity: 0.45 } },
-          },
-        },
-        detectRetina: true,
-      },
-    });
-  }
-
-  function initSpotlight() {
-    const spot = document.getElementById('spotlight');
-    if (!spot || reduced) return;
-    let tx = window.innerWidth / 2,
-      ty = window.innerHeight / 2,
-      x = tx,
-      y = ty;
-    window.addEventListener(
-      'mousemove',
-      (e) => {
-        tx = e.clientX;
-        ty = e.clientY;
-      },
-      { passive: true }
-    );
-    function loop() {
-      x += (tx - x) * 0.08;
-      y += (ty - y) * 0.08;
-      spot.style.setProperty('--mx', `${x}px`);
-      spot.style.setProperty('--my', `${y}px`);
-      requestAnimationFrame(loop);
-    }
-    loop();
-  }
-
-  initParticles();
-  initSpotlight();
-</script>
