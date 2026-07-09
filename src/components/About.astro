@@ -37,7 +37,7 @@ const base = import.meta.env.BASE_URL;
                     </svg>
                     <div class="hero-title-block">
                       <span class="hero-eyebrow">Know Thyself</span>
-                      <h3 class="card-title hero-main-title">何以为我</h3>
+                      <h2 class="card-title hero-main-title">何以为我</h3>
                       <strong class="hero-name-large">Valkjin</strong>
                     </div>
                   </div>
@@ -83,7 +83,7 @@ const base = import.meta.env.BASE_URL;
                     </div>
                     <div class="hero-title-block">
                       <span class="hero-eyebrow">Into the Unknown</span>
-                      <h3 class="card-title">向何而去</h3>
+                      <h2 class="card-title">向何而去</h3>
                       <strong class="hero-name-large">Pathfinder</strong>
                     </div>
                   </div>
@@ -135,7 +135,7 @@ const base = import.meta.env.BASE_URL;
                     </div>
                     <div class="hero-title-block">
                       <span class="hero-eyebrow">The Making</span>
-                      <h3 class="card-title">何以筑之</h3>
+                      <h2 class="card-title">何以筑之</h3>
                       <strong class="hero-name-large">The Architect</strong>
                     </div>
                   </div>
@@ -230,7 +230,7 @@ const base = import.meta.env.BASE_URL;
                 </circle>
               </svg>
             </div>
-            <h3 class="card-title">探索方向<br /><span class="card-subtitle">Exploration</span></h3>
+            <h2 class="card-title">探索方向<br /><span class="card-subtitle">Exploration</span></h3>
             <div class="card-bg-particles" aria-hidden="true">
               <span class="p-dot a1" style="top:12%;left:8%;"></span>
               <span class="p-dot a2" style="top:28%;left:82%;"></span>
@@ -290,7 +290,7 @@ const base = import.meta.env.BASE_URL;
                 </line>
               </svg>
             </div>
-            <h3 class="card-title">创造与分享<br /><span class="card-subtitle">Create &amp; Share</span></h3>
+            <h2 class="card-title">创造与分享<br /><span class="card-subtitle">Create &amp; Share</span></h3>
             <div class="card-bg-particles" aria-hidden="true">
               <span class="p-dot a3" style="top:8%;left:22%;"></span>
               <span class="p-dot a4" style="top:25%;left:75%;"></span>
@@ -345,7 +345,7 @@ const base = import.meta.env.BASE_URL;
                 <line x1="90" y1="56" x2="90" y2="62" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-dasharray="2 2" />
               </svg>
             </div>
-            <h3 class="card-title">技术栈<br /><span class="card-subtitle">Tech Stack</span></h3>
+            <h2 class="card-title">技术栈<br /><span class="card-subtitle">Tech Stack</span></h3>
             <div class="card-bg-particles" aria-hidden="true">
               <span class="p-dot a2" style="top:10%;left:15%;"></span>
               <span class="p-dot a3" style="top:30%;left:78%;"></span>
@@ -425,6 +425,8 @@ const base = import.meta.env.BASE_URL;
     current = (i + slides.length) % slides.length;
     track.style.transform = `translateX(-${current * 100}%)`;
     dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+    // 非当前幻灯片不可聚焦，避免键盘 Tab 到屏幕外内容
+    slides.forEach((s, idx) => s.toggleAttribute('inert', idx !== current));
   }
   function start() {
     stop();
@@ -477,5 +479,7 @@ const base = import.meta.env.BASE_URL;
   bindChips('data-create', 'create');
   bindChips('data-tech', 'techStack');
 
-  start();
+  // 尊重 prefers-reduced-motion：减弱偏好下不自动轮播，仅保留手动控制
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) start();
 </script>

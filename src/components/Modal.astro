@@ -142,9 +142,23 @@ import modals from '../data/modals.json';
   const detEl = document.getElementById('modalDetails');
   const closeBtn = document.getElementById('modalClose');
 
+  let lastFocused: HTMLElement | null = null;
+
+  function getFocusable(): HTMLElement[] {
+    if (!overlay) return [];
+    return Array.from(
+      overlay.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"]), [role="button"]'
+      )
+    );
+  }
+
   function close() {
     overlay?.classList.remove('open');
     overlay?.setAttribute('aria-hidden', 'true');
+    // 焦点归还触发元素
+    lastFocused?.focus();
+    lastFocused = null;
   }
 
   function openModal(group: string, key: string) {
@@ -154,8 +168,12 @@ import modals from '../data/modals.json';
     if (titleEl) titleEl.textContent = data.title;
     if (subEl) subEl.textContent = data.subtitle;
     if (detEl) detEl.innerHTML = data.details;
+    lastFocused = document.activeElement as HTMLElement | null;
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
+    // 打开时把焦点移入对话框
+    const f = getFocusable();
+    (f[0] ?? overlay).focus();
   }
 
   window.addEventListener('open-modal', (e: Event) => {
@@ -165,6 +183,21 @@ import modals from '../data/modals.json';
   closeBtn?.addEventListener('click', close);
   overlay?.addEventListener('click', (e) => {
     if (e.target === overlay) close();
+  });
+  // 焦点陷阱：在对话框内循环 Tab
+  overlay?.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key !== 'Tab' || !overlay.classList.contains('open')) return;
+    const f = getFocusable();
+    if (!f.length) return;
+    const first = f[0];
+    const last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && overlay?.classList.contains('open')) close();
