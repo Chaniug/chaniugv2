@@ -283,9 +283,14 @@ img[data-src] {
 }
 
 .projects-grid {
-    display: flex;
-    flex-direction: column;
     gap: var(--space-md);
+    max-width: var(--stats-max);
+    margin: 0 auto;
+}
+
+/* 横向布局下，项目卡固定宽度形成可滑动条带 */
+.h-rail .project-card {
+    width: clamp(260px, 80vw, 340px);
 }
 
 .project-card {

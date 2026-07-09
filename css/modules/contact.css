@@ -16,15 +16,16 @@
 }
 
 /* ============================================================
-   CONTACT GRID — 交错卡片式
+   CONTACT GRID — 横向滑轨（phase C）
    ============================================================ */
 .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: var(--space-lg);
     max-width: var(--contact-max);
     margin: 0 auto;
-    align-items: stretch;
+}
+
+/* 横向布局下，卡片固定宽度形成可滑动条带 */
+.h-rail .contact-card {
+    width: clamp(160px, 42vw, 200px);
 }
 
 .contact-card {

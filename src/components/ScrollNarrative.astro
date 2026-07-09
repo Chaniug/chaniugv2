@@ -1,0 +1,75 @@
+---
+// GSAP 滚动叙事：顶部渐变进度条 + 区块标题视差（phase C 横向叙事增强）
+// 进度条用原生滚动监听保证在 reduced-motion 下仍可用；视差仅非减弱偏好时启用 GSAP
+---
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"><i></i></div>
+
+<style is:global>
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 2000;
+    background: rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+  }
+  .scroll-progress > i {
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform-origin: left center;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+    box-shadow: 0 0 14px rgba(79, 140, 255, 0.6);
+    will-change: transform;
+  }
+</style>
+
+<script>
+  const bar = document.getElementById('scrollProgress');
+  const fill = bar?.querySelector<HTMLElement>('i');
+  let ticking = false;
+
+  function updateBar() {
+    if (!fill) return;
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const p = max > 0 ? Math.min(1, h.scrollTop / max) : 0;
+    fill.style.transform = `scaleX(${p})`;
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updateBar);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  updateBar();
+
+  // GSAP 视差（增强层，失败不影响基础功能）
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduced) {
+    import('gsap')
+      .then(({ default: gsap }) =>
+        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+          gsap.registerPlugin(ScrollTrigger);
+          gsap.utils.toArray<HTMLElement>('.section-label').forEach((el) => {
+            gsap.fromTo(
+              el,
+              { y: 22 },
+              {
+                y: -22,
+                ease: 'none',
+                scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true },
+              }
+            );
+          });
+        })
+      )
+      .catch(() => {});
+  }
+</script>

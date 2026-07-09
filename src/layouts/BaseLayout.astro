@@ -12,12 +12,16 @@ import '../../css/modules/explore.css';
 import '../../css/modules/modal.css';
 import '../../css/modules/stats.css';
 import '../../css/modules/contact.css';
+import '../../css/modules/horizontal.css';
 import '../../css/modules/responsive.css';
 
 import BackgroundField from '../components/BackgroundField.astro';
 import SiteNav from '../components/SiteNav.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Reveal from '../components/Reveal.astro';
+import Interactions from '../components/Interactions.astro';
+import RailNav from '../components/RailNav.astro';
+import ScrollNarrative from '../components/ScrollNarrative.astro';
 
 interface Props {
   title?: string;
@@ -112,5 +116,8 @@ const ogImage = `${Astro.site}/img/avatar.jpg`;
     <slot />
     <SiteFooter />
     <Reveal />
+    <Interactions />
+    <RailNav />
+    <ScrollNarrative />
   </body>
 </html>

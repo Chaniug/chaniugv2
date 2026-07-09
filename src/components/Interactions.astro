@@ -1,0 +1,61 @@
+---
+// 卡片增强：vanilla-tilt 3D 倾斜 + 玻璃卡鼠标光晕（phase C P0）
+---
+<script>
+  import VanillaTilt from 'vanilla-tilt';
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.glass-card'));
+
+  if (!reduced) {
+    try {
+      // @ts-ignore - vanilla-tilt 默认导出即 init 函数
+      VanillaTilt.init(cards as any, {
+        max: 7,
+        speed: 500,
+        glare: true,
+        'max-glare': 0.18,
+        scale: 1.02,
+        perspective: 900,
+      });
+    } catch (e) {
+      console.warn('[tilt] init skipped', e);
+    }
+  }
+
+  // 玻璃卡鼠标光晕层
+  cards.forEach((card) => {
+    const glow = document.createElement('div');
+    glow.className = 'glass-glow';
+    card.appendChild(glow);
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      glow.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      glow.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+  });
+</script>
+
+<style is:global>
+  .glass-card {
+    position: relative;
+    isolation: isolate;
+  }
+  .glass-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background: radial-gradient(
+      240px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(79, 140, 255, 0.22),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .glass-card:hover .glass-glow {
+    opacity: 1;
+  }
+</style>

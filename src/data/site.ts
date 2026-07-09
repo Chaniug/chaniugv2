@@ -21,6 +21,7 @@ export const site = {
     { id: 'about', label: 'About' },
     { id: 'skills', label: 'Skills' },
     { id: 'stats', label: 'Stats' },
+    { id: 'journey', label: 'Journey' },
     { id: 'contact', label: 'Contact' },
   ] as NavItem[],
   contacts: [

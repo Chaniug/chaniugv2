@@ -1,0 +1,148 @@
+/* ============================================================
+   HORIZONTAL RAIL SYSTEM — 横向展示风格（非整页横向滚动）
+   区块内部使用 scroll-snap 横向滑轨，桌面端可拖动/箭头浏览，
+   移动端原生触摸滑动，不劫持整页竖向滚动。
+   ============================================================ */
+
+.h-rail-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.h-rail {
+    display: flex;
+    gap: var(--space-lg);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0.5rem 0.25rem 1.1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;          /* Firefox 隐藏滚动条 */
+    scroll-padding-inline: 0.25rem;
+}
+.h-rail::-webkit-scrollbar {
+    display: none;                  /* WebKit 隐藏滚动条 */
+}
+.h-rail > * {
+    scroll-snap-align: center;
+    flex: 0 0 auto;
+}
+
+/* ---- 边缘渐隐遮罩（提示可继续滑动）---- */
+.h-rail-wrap::before,
+.h-rail-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 1.1rem;
+    width: 52px;
+    pointer-events: none;
+    z-index: 4;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+.h-rail-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-deep) 10%, transparent);
+}
+.h-rail-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-deep) 10%, transparent);
+}
+.h-rail-wrap:not(.at-start)::before { opacity: 1; }
+.h-rail-wrap:not(.at-end)::after   { opacity: 1; }
+
+/* ---- 左右导航按钮 ---- */
+.rail-prev,
+.rail-next {
+    position: absolute;
+    top: calc(50% - 0.55rem);
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: rgba(15, 15, 30, 0.65);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 6;
+    opacity: 0;
+    transition: opacity 0.3s ease, background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.h-rail-wrap:hover .rail-prev,
+.h-rail-wrap:hover .rail-next { opacity: 1; }
+.rail-prev { left: -10px; }
+.rail-next { right: -10px; }
+.rail-prev svg,
+.rail-next svg {
+    width: 18px;
+    height: 18px;
+}
+.rail-prev:hover,
+.rail-next:hover {
+    background: rgba(79, 140, 255, 0.22);
+    color: #fff;
+}
+.rail-prev:active,
+.rail-next:active { transform: translateY(-50%) scale(0.9); }
+
+/* 已到两端时自动隐藏对应按钮（也避免遮挡边缘卡片） */
+.h-rail-wrap.at-start .rail-prev { display: none; }
+.h-rail-wrap.at-end   .rail-next { display: none; }
+
+/* ---- 底部进度条 ---- */
+.rail-progress {
+    position: relative;
+    height: 2px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    margin-top: 0.2rem;
+    overflow: hidden;
+}
+.rail-progress > i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+    transition: width 0.12s linear;
+}
+
+/* ---- 操作提示 ---- */
+.rail-hint {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    opacity: 0.5;
+    margin-top: 0.55rem;
+    user-select: none;
+}
+
+/* 拖动中的光标反馈 */
+.h-rail.is-dragging {
+    scroll-behavior: auto;
+    cursor: grabbing;
+}
+
+/* 尊重减弱动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+    .h-rail { scroll-behavior: auto; }
+    .rail-progress > i { transition: none; }
+}
+
+/* 移动端：隐藏箭头（触摸滑动），保留边缘渐隐与提示 */
+@media (max-width: 768px) {
+    .rail-prev,
+    .rail-next { display: none; }
+    .h-rail-wrap.at-start .rail-prev,
+    .h-rail-wrap.at-end .rail-next { display: none; }
+}
