@@ -15,10 +15,13 @@ export interface ContactCard {
 export const site = {
   name: 'Valkjin',
   github: 'Chaniug',
+  role: '开发者 · 广告过滤与自动化',
+  location: 'China · UTC+8',
   description:
-    '热爱前沿技术的开发者，专注于 AI、前端、自动化与创意项目。用代码点亮数字世界。',
+    '专注广告过滤规则管理与自动化工具链的开发者。用 Python 与 TypeScript 构建可维护的工程，把繁琐留给脚本，把时间留给创造。',
   nav: [
     { id: 'about', label: 'About' },
+    { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
     { id: 'stats', label: 'Stats' },
     { id: 'journey', label: 'Journey' },

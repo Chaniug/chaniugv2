@@ -7,52 +7,90 @@ const icons: Record<string, string> = {
   tg: '<svg viewBox="0 0 32 32" fill="none"><path d="M5 15l8 3.2 3.2 8L26 6 5 15z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
   wechat: '<svg viewBox="0 0 32 32" fill="none"><path d="M11 13.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zM22 13.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="currentColor"/><path d="M16 4C9.4 4 4 8.4 4 14c0 3.2 1.8 6 4.6 7.8L7 26l4.8-2.4c1 .3 2 .4 3.2.4 6.6 0 12-4.4 12-10S22.6 4 16 4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 4c6.6 0 12 4.4 12 10 0 2.5-1.2 4.8-3.2 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   qq: '<svg viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="17" rx="10" ry="8" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="11" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="13.5" cy="10" r="1" fill="currentColor"/><circle cx="18.5" cy="10" r="1" fill="currentColor"/><path d="M14 13.5a3 3 0 004 0" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>',
-    email: '<svg viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M4 10l12 9 12-9" stroke="currentColor" stroke-width="1.5"/></svg>',
+  email: '<svg viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M4 10l12 9 12-9" stroke="currentColor" stroke-width="1.5"/></svg>',
   github: '<svg viewBox="0 0 32 32" fill="none"><path d="M12 27c-5 1.2-5-2.5-7.5-3m14.5 11v-5.4c0-1.5-.5-2.7-1.3-3.5 4.5-.5 9.3-2.3 9.3-10 0-2.2-.8-4-2-5.5.2-.5.8-2.6-.3-5.3 0 0-1.7-.5-5.5 2a19 19 0 00-10 0c-3.8-2.5-5.5-2-5.5-2-1.1 2.7-.5 4.8-.3 5.3a8 8 0 00-2 5.5c0 7.7 4.8 9.5 9.3 10-.7.8-1.3 2-1.3 3.5V32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 };
-const chevron = (dir: 'left' | 'right') =>
-  dir === 'left'
-    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'
-    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
 ---
-<section id="contact" class="section">
-  <div class="section-inner">
-    <div class="section-label reveal">
-      <span class="label-line"></span>
-      <span class="label-text">C O N T A C T</span>
-      <span class="label-line"></span>
-    </div>
-    <p class="contact-subtitle reveal">期待与你交流 — Let's Connect</p>
-    <div class="h-rail-wrap" data-rail>
-      <button class="rail-prev" aria-label="向左滚动" set:html={chevron('left')} />
-      <div class="h-rail contact-grid">
-        {
-          site.contacts.map((c) => (
-            <a
-              class="contact-card glass-card"
-              class:list={[c.copy ? '' : 'is-link']}
-              data-platform={c.platform}
-              href={c.copy ? undefined : c.href}
-              target={c.copy ? undefined : '_blank'}
-              rel={c.copy ? undefined : 'noopener'}
-              role={c.copy ? 'button' : undefined}
-              tabindex={c.copy ? 0 : undefined}
-            >
-              <div class="contact-icon" set:html={icons[c.platform]} />
-              <span class="contact-name">{c.name}</span>
-              <span class="contact-detail">{c.detail}</span>
-              {c.copy && <span class="contact-copy-hint">点击复制</span>}
-            </a>
-          ))
-        }
-      </div>
-      <button class="rail-next" aria-label="向右滚动" set:html={chevron('right')} />
-      <div class="rail-progress"><i></i></div>
-    </div>
-    <p class="rail-hint">← 拖动或滑动浏览全部联系方式 →</p>
+<section id="contact" class="stream-section">
+  <div class="stream-label">
+    <span class="sl-line" aria-hidden="true"></span>
+    <span class="sl-text">Contact</span>
+  </div>
+  <p class="stream-lead">期待交流 — 以下方式都能找到我。</p>
+
+  <div class="contact-list">
+    {
+      site.contacts.map((c) => (
+        <a
+          class="contact-item glass-card"
+          class:list={[c.copy ? '' : 'is-link']}
+          data-platform={c.platform}
+          href={c.copy ? undefined : c.href}
+          target={c.copy ? undefined : '_blank'}
+          rel={c.copy ? undefined : 'noopener'}
+          role={c.copy ? 'button' : undefined}
+          tabindex={c.copy ? 0 : undefined}
+        >
+          <div class="contact-icon" set:html={icons[c.platform]} />
+          <span class="contact-name">{c.name}</span>
+          <span class="contact-detail">{c.detail}</span>
+          {c.copy && <span class="contact-copy-hint">点击复制</span>}
+        </a>
+      ))
+    }
   </div>
   <div class="copy-toast" id="copyToast" aria-live="polite"></div>
 </section>
+
+<style>
+  .contact-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: var(--space-md);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--transition-smooth),
+      transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  }
+  .contact-item:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(20, 20, 30, 0.05),
+      0 14px 34px rgba(20, 20, 30, 0.08);
+  }
+  .contact-icon { width: 22px; height: 22px; color: var(--accent); opacity: 0.85; }
+  .contact-icon :global(svg) { width: 22px; height: 22px; }
+  .contact-name { font-size: 0.92rem; font-weight: 500; color: var(--text-primary); }
+  .contact-detail { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted); }
+  .contact-copy-hint { font-size: 0.66rem; color: var(--accent-cyan); }
+
+  .copy-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%) translateY(1rem);
+    background: var(--text-primary);
+    color: var(--bg-deep);
+    font-size: 0.8rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 2000;
+  }
+  .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 560px) {
+    .contact-list { grid-template-columns: 1fr; }
+  }
+</style>
 
 <script>
   const copyable = ['wechat', 'qq', 'email'];
@@ -67,6 +105,9 @@ const chevron = (dir: 'left' | 'right') =>
   }
 
   document.querySelectorAll<HTMLElement>('.contact-card[data-platform]').forEach((card) => {
+    // 旧类名已更名，兼容两种选择器
+  });
+  document.querySelectorAll<HTMLElement>('.contact-item[data-platform]').forEach((card) => {
     const platform = card.dataset.platform || '';
     if (!copyable.includes(platform)) return;
     const detail = card.querySelector('.contact-detail')?.textContent?.trim() || '';

@@ -3,26 +3,14 @@ import '../../css/modules/variables.css';
 import '../../css/modules/reset.css';
 import '../../css/modules/animations.css';
 import '../../css/modules/layout.css';
-import '../../css/modules/navigation.css';
-import '../../css/modules/hero.css';
-import '../../css/modules/signature.css';
-import '../../css/modules/about.css';
-import '../../css/modules/tech-stack.css';
-import '../../css/modules/explore.css';
-import '../../css/modules/modal.css';
-import '../../css/modules/stats.css';
-import '../../css/modules/contact.css';
-import '../../css/modules/horizontal.css';
-import '../../css/modules/responsive.css';
 import '../../css/modules/theme.css';
+import '../../css/modules/split.css';
+import '../../css/modules/modal.css';
 
-import BackgroundField from '../components/BackgroundField.astro';
-import SiteNav from '../components/SiteNav.astro';
+import SidePanel from '../components/SidePanel.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Reveal from '../components/Reveal.astro';
-import Interactions from '../components/Interactions.astro';
-import RailNav from '../components/RailNav.astro';
-import ScrollNarrative from '../components/ScrollNarrative.astro';
+import Modal from '../components/Modal.astro';
 import { site } from '../data/site';
 
 interface Props {
@@ -32,7 +20,7 @@ interface Props {
 
 const {
   title = 'Valkjin · 探索未来的开发者',
-  description = '热爱前沿技术的开发者，专注于 AI、前端、自动化与创意项目。用代码点亮数字世界。',
+  description = '专注广告过滤规则管理与自动化工具链的开发者。',
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
@@ -54,7 +42,6 @@ const personSchema = {
   ],
 };
 ---
-
 <!doctype html>
 <html lang="zh-CN">
   <head>
@@ -72,7 +59,7 @@ const personSchema = {
           if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
           document.documentElement.setAttribute('data-theme', t);
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.setAttribute('data-theme', 'light');
         }
       })();
     </script>
@@ -111,7 +98,7 @@ const personSchema = {
     <!-- JSON-LD 结构化数据 -->
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 
-    <!-- 首屏 critical CSS：消除主样式加载前的 FOUC（白色闪现 / 内容闪现） -->
+    <!-- 首屏 critical CSS：消除主样式加载前的 FOUC -->
     <style is:inline>
       :root {
         --bg-deep: #f7f6f3;
@@ -128,14 +115,7 @@ const personSchema = {
         font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
       }
-      .site-nav {
-        position: fixed; top: 0; left: 0; right: 0; height: 60px;
-        background: rgba(247, 246, 243, 0.7);
-        -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-        z-index: 1000;
-      }
       .reveal { opacity: 0; }
-      .easter-egg-overlay { visibility: hidden; opacity: 0; }
       .skip-link {
         position: fixed; top: -100px; left: 12px; z-index: 2000;
         padding: 10px 18px; border-radius: 10px;
@@ -147,22 +127,22 @@ const personSchema = {
     </style>
     <noscript>
       <style>
-        /* 无 JS 时，揭示动画不应隐藏内容 */
         .reveal { opacity: 1 !important; transform: none !important; }
       </style>
     </noscript>
   </head>
   <body>
     <a href="#main" class="skip-link">跳到主内容</a>
-    <BackgroundField />
-    <SiteNav />
-    <main id="main">
-      <slot />
-    </main>
-    <SiteFooter />
+    <div class="split-layout">
+      <SidePanel />
+      <main id="main" class="content-stream">
+        <div class="stream-inner">
+          <slot />
+          <SiteFooter />
+        </div>
+      </main>
+    </div>
     <Reveal />
-    <Interactions />
-    <RailNav />
-    <ScrollNarrative />
+    <Modal />
   </body>
 </html>

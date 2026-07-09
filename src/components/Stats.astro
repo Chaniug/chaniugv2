@@ -32,11 +32,6 @@ const counters = [
   },
 ];
 
-const chevron = (dir: 'left' | 'right') =>
-  dir === 'left'
-    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'
-    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
-
 // 语言分布环形图（真实数据 top6）
 const langEntries = Object.entries(gh.langBytes).sort((a, b) => b[1] - a[1]).slice(0, 6);
 const donut = donutChart(
@@ -67,97 +62,57 @@ const tiles = statTiles([
 
 const dataNote = gh.fallback ? '（静态回退数据）' : '（实时 GitHub 数据）';
 ---
+<section id="stats" class="stream-section">
+  <div class="stream-label">
+    <span class="sl-line" aria-hidden="true"></span>
+    <span class="sl-text">Statistics</span>
+  </div>
 
-<section id="stats" class="section">
-  <div class="section-inner">
-    <div class="section-label reveal">
-      <span class="label-line"></span>
-      <span class="label-text">S T A T I S T I C S</span>
-      <span class="label-line"></span>
-    </div>
-
-    <div class="stats-counters" id="statsCounters">
-      {
-        counters.map((c) => (
-          <div class="stat-counter-card glass-card reveal">
-            <div class="counter-icon" set:html={c.icon} />
-            <span class="counter-number" data-target={c.target} data-suffix={c.suffix}>0</span>
-            <span class="counter-label">{c.label}</span>
-          </div>
-        ))
-      }
-    </div>
-
-    <div class="stats-motto reveal">
-      <span class="stats-motto-cn">履霜，坚冰至</span>
-      <span class="stats-motto-sep">—</span>
-      <span class="stats-motto-en">Dripping water hollows out stone.</span>
-    </div>
-
-    <div class="stats-charts">
-      <div class="stat-card glass-card reveal stat-card-chart">
-        <div class="stat-card-accent accent-lang"></div>
-        <p class="stat-label">
-          <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2" /><circle cx="8" cy="5" r="2.5" fill="currentColor" opacity="0.3" /><circle cx="8" cy="11" r="1.2" fill="currentColor" opacity="0.6" /></svg>
-          语言分布
-        </p>
-        <div class="chart-donut" set:html={donut} />
-        <div class="lang-legend" set:html={langLegend} />
-      </div>
-
-      <div class="stat-card glass-card reveal stat-card-chart">
-        <div class="stat-card-accent accent-commit"></div>
-        <p class="stat-label">
-          <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><polygon points="8,1 10,5.5 15,6 11,9.5 12,14.5 8,12 4,14.5 5,9.5 1,6 6,5.5" stroke="currentColor" stroke-width="1" fill="none" /><circle cx="8" cy="8" r="1.5" fill="currentColor" opacity="0.5" /></svg>
-          星标排行
-        </p>
-        <div class="chart-bars" set:html={starBars} />
-      </div>
-    </div>
-
-    <div class="stat-card glass-card reveal stat-card-full">
-      <p class="stat-label">
-        <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.9" /><rect x="5" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.6" /><rect x="9" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.3" /><rect x="13" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.15" /><rect x="1" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.7" /><rect x="5" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.4" /><rect x="9" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.8" /><rect x="13" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.2" /><rect x="1" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.3" /><rect x="5" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.9" /><rect x="9" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.5" /><rect x="13" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.15" /><rect x="1" y="13" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.2" /><rect x="5" y="13" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.7" /></svg>
-        仓库概览 <span class="data-note">{dataNote}</span>
-      </p>
-      <div class="gh-tiles" set:html={tiles} />
-    </div>
-
-    <div class="recent-projects reveal">
-      <div class="section-label">
-        <span class="label-line"></span>
-        <span class="label-text">R E C E N T &nbsp; P R O J E C T S</span>
-        <span class="label-line"></span>
-      </div>
-      <div class="h-rail-wrap" data-rail>
-        <button class="rail-prev" aria-label="向左滚动" set:html={chevron('left')} />
-        <div class="h-rail projects-grid" id="projectsGrid">
-          {
-            topRepos.map((r) => (
-              <a href={r.url} target="_blank" rel="noopener" class="project-card glass-card">
-                <div class="project-icon">
-                  <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5" /><path d="M16 8v8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
-                </div>
-                <div class="project-info">
-                  <h2 class="project-name">{r.name}</h2>
-                  <p class="project-desc">{r.description}</p>
-                  <div class="project-tags">
-                    {r.language && <span class="project-tag">{r.language}</span>}
-                    <span class="project-tag">GitHub</span>
-                  </div>
-                </div>
-                <div class="project-stars">
-                  <svg viewBox="0 0 16 16" fill="currentColor"><polygon points="8,1 10,5.5 15,6 11,9.5 12,14.5 8,12 4,14.5 5,9.5 1,6 6,5.5" /></svg>
-                  <span>{r.stars}</span>
-                </div>
-              </a>
-            ))
-          }
+  <div class="stats-counters" id="statsCounters">
+    {
+      counters.map((c) => (
+        <div class="stat-counter-card glass-card reveal">
+          <div class="counter-icon" set:html={c.icon} />
+          <span class="counter-number" data-target={c.target} data-suffix={c.suffix}>0</span>
+          <span class="counter-label">{c.label}</span>
         </div>
-        <button class="rail-next" aria-label="向右滚动" set:html={chevron('right')} />
-        <div class="rail-progress"><i></i></div>
-      </div>
+      ))
+    }
+  </div>
+
+  <div class="stats-motto reveal">
+    <span class="stats-motto-cn">履霜，坚冰至</span>
+    <span class="stats-motto-sep">—</span>
+    <span class="stats-motto-en">Dripping water hollows out stone.</span>
+  </div>
+
+  <div class="stats-charts">
+    <div class="stat-card glass-card reveal stat-card-chart">
+      <div class="stat-card-accent accent-lang"></div>
+      <p class="stat-label">
+        <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2" /><circle cx="8" cy="5" r="2.5" fill="currentColor" opacity="0.3" /><circle cx="8" cy="11" r="1.2" fill="currentColor" opacity="0.6" /></svg>
+        语言分布
+      </p>
+      <div class="chart-donut" set:html={donut} />
+      <div class="lang-legend" set:html={langLegend} />
     </div>
+
+    <div class="stat-card glass-card reveal stat-card-chart">
+      <div class="stat-card-accent accent-commit"></div>
+      <p class="stat-label">
+        <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><polygon points="8,1 10,5.5 15,6 11,9.5 12,14.5 8,12 4,14.5 5,9.5 1,6 6,5.5" stroke="currentColor" stroke-width="1" fill="none" /><circle cx="8" cy="8" r="1.5" fill="currentColor" opacity="0.5" /></svg>
+        星标排行
+      </p>
+      <div class="chart-bars" set:html={starBars} />
+    </div>
+  </div>
+
+  <div class="stat-card glass-card reveal stat-card-full">
+    <p class="stat-label">
+      <svg class="stat-label-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.9" /><rect x="5" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.6" /><rect x="9" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.3" /><rect x="13" y="1" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.15" /><rect x="1" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.7" /><rect x="5" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.4" /><rect x="9" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.8" /><rect x="13" y="5" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.2" /><rect x="1" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.3" /><rect x="5" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.9" /><rect x="9" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.5" /><rect x="13" y="9" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.15" /><rect x="1" y="13" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.2" /><rect x="5" y="13" width="3" height="3" rx="0.5" fill="currentColor" opacity="0.7" /></svg>
+      仓库概览 <span class="data-note">{dataNote}</span>
+    </p>
+    <div class="gh-tiles" set:html={tiles} />
   </div>
 </section>
 
@@ -169,11 +124,81 @@ const dataNote = gh.fallback ? '（静态回退数据）' : '（实时 GitHub �
     letter-spacing: 0.04em;
     opacity: 0.7;
   }
-  .chart-donut {
-    display: flex;
-    justify-content: center;
-    padding: 0.4rem 0;
+  .stats-counters {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
   }
+  .stat-counter-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: var(--space-md);
+    border-radius: 12px;
+    background: var(--glass-bg);
+    border: 1px solid var(--border);
+    transition: border-color var(--transition-smooth), transform var(--transition-smooth);
+  }
+  .stat-counter-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .counter-icon { width: 20px; height: 20px; color: var(--accent); opacity: 0.8; }
+  .counter-icon :global(svg) { width: 20px; height: 20px; }
+  .counter-number {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .counter-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .stats-motto {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin: var(--space-md) 0 var(--space-lg);
+    opacity: 0.8;
+  }
+  .stats-charts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  .stat-card {
+    position: relative;
+    padding: var(--space-lg);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .stat-card-accent {
+    position: absolute;
+    top: 0;
+    left: var(--space-lg);
+    width: 28px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+  }
+  .accent-lang { background: var(--accent-blue); }
+  .accent-commit { background: var(--accent-cyan); }
+  .stat-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-sm);
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+  .stat-label-icon { width: 14px; height: 14px; opacity: 0.7; }
+  .chart-donut { display: flex; justify-content: center; padding: 0.4rem 0; }
   .chart-donut :global(svg) { max-width: 200px; }
   .lang-legend {
     display: flex;
@@ -185,9 +210,7 @@ const dataNote = gh.fallback ? '（静态回退数据）' : '（实时 GitHub �
     font-family: var(--font-mono);
   }
   .lang-legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
-  .lang-legend-item i {
-    width: 9px; height: 9px; border-radius: 2px; display: inline-block;
-  }
+  .lang-legend-item i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
   .chart-bars { width: 100%; padding: 0.4rem 0; }
   .gh-tiles {
     display: grid;
@@ -202,22 +225,16 @@ const dataNote = gh.fallback ? '（静态回退数据）' : '（实时 GitHub �
     gap: 0.25rem;
     padding: var(--space-md);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--glass-border);
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
   }
   .gh-tile-v {
-    font-size: 1.4rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 1.3rem;
+    font-weight: 500;
+    font-family: var(--font-display);
+    color: var(--text-primary);
   }
-  .gh-tile-l {
-    font-size: 0.68rem;
-    color: var(--text-muted);
-    letter-spacing: 0.04em;
-  }
+  .gh-tile-l { font-size: 0.66rem; color: var(--text-muted); letter-spacing: 0.04em; }
   @media (max-width: 560px) {
     .gh-tiles { grid-template-columns: repeat(2, 1fr); }
   }

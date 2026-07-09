@@ -1,0 +1,120 @@
+---
+import { getGitHubData } from '../data/github';
+
+const gh = await getGitHubData();
+const repos = gh.repos.slice(0, 6);
+const note = gh.fallback ? '（静态回退数据）' : '（实时 GitHub 数据）';
+---
+<section id="projects" class="stream-section">
+  <div class="stream-label">
+    <span class="sl-line" aria-hidden="true"></span>
+    <span class="sl-text">Projects</span>
+  </div>
+  <p class="stream-lead">
+    维护中的开源项目与工具 — 聚焦广告过滤、自动化与流媒体聚合。
+  </p>
+
+  <ul class="proj-list">
+    {
+      repos.map((r) => (
+        <li class="proj-item glass-card reveal">
+          <div class="proj-main">
+            <div class="proj-head">
+              <h2 class="proj-name">{r.name}</h2>
+              {r.language && <span class="proj-lang">{r.language}</span>}
+            </div>
+            <p class="proj-desc">{r.description}</p>
+          </div>
+          <div class="proj-meta">
+            <span class="proj-stars">★ {r.stars}</span>
+            <a class="proj-link" href={r.url} target="_blank" rel="noopener">
+              查看 →
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="stream-note">{note}</p>
+</section>
+
+<style>
+  .proj-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  .proj-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    transition: border-color var(--transition-smooth),
+      transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  }
+  .proj-item:hover {
+    border-color: var(--border-strong);
+    transform: translateX(4px);
+    box-shadow: 0 2px 4px rgba(20, 20, 30, 0.05),
+      0 14px 34px rgba(20, 20, 30, 0.08);
+  }
+  .proj-main { min-width: 0; }
+  .proj-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .proj-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .proj-lang {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--accent-cyan);
+    background: var(--accent-soft);
+    border: 1px solid var(--border);
+    padding: 0.18rem 0.5rem;
+    border-radius: 999px;
+  }
+  .proj-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0.4rem 0 0;
+  }
+  .proj-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+  .proj-stars {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .proj-link {
+    font-size: 0.82rem;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+  .proj-link:hover { opacity: 0.7; }
+
+  @media (max-width: 560px) {
+    .proj-item { flex-direction: column; align-items: flex-start; }
+    .proj-meta { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
+  }
+</style>

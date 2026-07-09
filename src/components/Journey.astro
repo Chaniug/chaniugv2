@@ -1,143 +1,89 @@
 ---
 import { journey } from '../data/journey';
-
-const chevron = (dir: 'left' | 'right') =>
-  dir === 'left'
-    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'
-    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
 ---
-<section id="journey" class="section">
-  <div class="section-inner">
-    <div class="section-label reveal">
-      <span class="label-line"></span>
-      <span class="label-text">J O U R N E Y</span>
-      <span class="label-line"></span>
-    </div>
-    <p class="journey-subtitle reveal">一段由代码串起的成长轨迹 — The Path So Far</p>
-
-    <div class="h-rail-wrap" data-rail>
-      <button class="rail-prev" aria-label="向左滚动" set:html={chevron('left')} />
-      <div class="h-rail journey-rail">
-        {
-          journey.map((m, i) => (
-            <article class="journey-node glass-card" data-index={i}>
-              <span class="journey-line" aria-hidden="true" />
-              <div class="journey-dot" aria-hidden="true" />
-              <span class="journey-year">{m.year}</span>
-              <h2 class="journey-title">{m.title}</h2>
-              <p class="journey-desc">{m.desc}</p>
-              <span class="journey-tag">{m.tag}</span>
-            </article>
-          ))
-        }
-      </div>
-      <button class="rail-next" aria-label="向右滚动" set:html={chevron('right')} />
-      <div class="rail-progress"><i></i></div>
-    </div>
-    <p class="rail-hint">← 拖动 / 滑动浏览全部历程 →</p>
+<section id="journey" class="stream-section">
+  <div class="stream-label">
+    <span class="sl-line" aria-hidden="true"></span>
+    <span class="sl-text">Journey</span>
   </div>
+  <p class="stream-lead">一段由代码串起的成长轨迹 — The Path So Far</p>
+
+  <ol class="timeline">
+    {
+      journey.map((m) => (
+        <li class="tl-item reveal">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <span class="tl-year">{m.year}</span>
+          <h2 class="tl-title">{m.title}</h2>
+          <p class="tl-desc">{m.desc}</p>
+          <span class="tl-tag">{m.tag}</span>
+        </li>
+      ))
+    }
+  </ol>
 </section>
 
 <style>
-  .journey-subtitle {
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    letter-spacing: 0.06em;
-    margin-bottom: var(--space-2xl);
-    opacity: 0.7;
-  }
-
-  .journey-rail {
-    align-items: stretch;
-  }
-
-  .journey-node {
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     position: relative;
-    width: clamp(240px, 72vw, 300px);
-    padding: var(--space-xl) var(--space-lg) var(--space-lg);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    overflow: visible;
   }
-
-  /* 连接横线（贯穿各节点顶部） */
-  .journey-line {
+  .timeline::before {
+    content: '';
     position: absolute;
-    top: 26px;
-    left: -1.5rem;
-    right: -1.5rem;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(79, 140, 255, 0.05), rgba(168, 85, 247, 0.35), rgba(34, 211, 238, 0.05));
-    z-index: 0;
-    pointer-events: none;
+    left: 7px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: linear-gradient(var(--border), var(--border-strong));
   }
-  .journey-node:first-child .journey-line { left: 50%; }
-  .journey-node:last-child .journey-line { right: 50%; }
-
-  /* 节点圆点 */
-  .journey-dot {
+  .tl-item {
+    position: relative;
+    padding: 0 0 var(--space-lg) 2.2rem;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot {
     position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 14px;
-    height: 14px;
+    left: 0;
+    top: 4px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: var(--bg-deep);
     border: 2px solid var(--accent-blue);
-    box-shadow: 0 0 14px rgba(79, 140, 255, 0.6);
-    z-index: 1;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-sizing: border-box;
   }
-  .journey-node:hover .journey-dot {
-    transform: translateX(-50%) scale(1.25);
-    box-shadow: 0 0 22px rgba(168, 85, 247, 0.8);
-  }
-
-  .journey-year {
+  .tl-year {
     font-family: var(--font-mono);
-    font-size: 1.7rem;
-    font-weight: 700;
-    line-height: 1;
-    margin-top: 0.4rem;
-    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--accent);
   }
-
-  .journey-title {
-    font-size: 1.02rem;
-    font-weight: 600;
+  .tl-title {
+    font-size: 1rem;
+    font-weight: 500;
     color: var(--text-primary);
+    margin: 0.2rem 0 0.3rem;
   }
-
-  .journey-desc {
-    font-size: 0.8rem;
+  .tl-desc {
+    font-size: 0.84rem;
     line-height: 1.6;
     color: var(--text-secondary);
-    flex: 1;
+    margin: 0;
   }
-
-  .journey-tag {
-    align-self: flex-start;
+  .tl-tag {
+    display: inline-block;
+    margin-top: 0.5rem;
     font-family: var(--font-mono);
     font-size: 0.62rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 0.22rem 0.6rem;
+    padding: 0.2rem 0.55rem;
     border-radius: 999px;
     color: var(--accent-cyan);
-    background: rgba(34, 211, 238, 0.1);
-    border: 1px solid rgba(34, 211, 238, 0.22);
-  }
-
-  /* 移动端：连线缩短，避免溢出 */
-  @media (max-width: 768px) {
-    .journey-node { width: 78vw; }
-    .journey-line { left: -1rem; right: -1rem; }
+    background: var(--accent-soft);
+    border: 1px solid var(--border);
   }
 </style>
