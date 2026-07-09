@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Chaniug/chaniugv2/issues"
   },
-  "homepage": "https://your-domain.example.com/",
+  "homepage": "https://Chaniug.github.io/chaniugv2/",
   "devDependencies": {
     "esbuild": "^0.28.1"
   }
