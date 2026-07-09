@@ -81,10 +81,4 @@ export const site = {
     repos: 28,
     years: 4,
   },
-  // GitHub 统计卡片（tokyonight 主题），name 取值如 repos-per-language / most-commit-language / profile-details
-  summaryCard: (name: string) =>
-    `https://github-profile-summary-cards.vercel.app/api/cards/${name}?username=Chaniug&theme=tokyonight`,
-  // 贡献贪吃蛇（来自本项目 output 分支，不会回写老仓库）
-  snakeSvg:
-    'https://raw.githubusercontent.com/Chaniug/chaniugv2/output/github-contribution-grid-snake.svg',
 };

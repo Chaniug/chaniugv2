@@ -1,107 +1,62 @@
-# Hi, I'm Chaniug 👋
+# Valkjin · chaniugv2
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=Hi!%20I'm%20Chaniug%20👋&fontSize=42&fontAlignY=40&desc=探索未来的开发者，用代码点亮数字世界&descSize=22&descAlign=65" alt="header" />
-</p>
+> 探索未来的开发者 — 用代码点亮数字世界。
+> 一个基于 **Astro 5** 重构的现代化个人主页，集成极光粒子背景、霓虹玻璃卡、技能星图与横向滑轨等动态效果。
 
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&pause=1000&color=4F8EF7&center=true&vCenter=true&width=800&lines=Explore+the+future+of+development;Light+up+the+digital+world+with+code;AI+%7C+Frontend+%7C+Automation+%7C+Creative+Toys" />
-</p>
-
-<p align="center">
-  <a href="https://Chaniug.github.io/chaniugv2/" target="_blank">🌐 个人主页</a> ·
-  <a href="https://x.com/valkjin" target="_blank">🐦 X (Twitter)</a> ·
-  <a href="https://t.me/valkjin" target="_blank">✈️ Telegram</a> ·
-  <a href="mailto:you@example.com">📫 邮箱</a>
-</p>
+🌐 在线预览：https://Chaniug.github.io/chaniugv2/
 
 ---
 
-## 📊 GitHub Stats
+## ✨ 特性
 
-<p align="center">
-  <img src="https://ghstats.dev/api/card?username=Chaniug&theme=tokyonight&hide_border=true&show_icons=true&size=compact" height="180" alt="GitHub Stats" />
-  <img src="https://ghstats.dev/api/langs?username=Chaniug&theme=tokyonight&hide_border=true" height="180" alt="Top Languages" />
-</p>
+- **极光 mesh 背景**：流动渐变光幕 + tsparticles 粒子，区别于传统纯星空。
+- **霓虹玻璃卡**：所有卡片默认流光描边 + hover 外发光。
+- **Hero 叙事**：旋转渐变光环 + 渐变流光主标题 + 打字机身份标语。
+- **横向展示**：联系方式 / 最近项目 / 成长时间轴均为可滑动滑轨（不劫持整页滚动）。
+- **明暗主题**：一键切换并 `localStorage` 持久化，含防闪烁脚本。
+- **真实数据**：构建期拉取 GitHub 仓库/星数（带静态 fallback，CI 无网也不崩）。
+- **零外链图表**：语言分布环形图、星标排行、仓库概览均由本地 SVG 生成，无隐私/性能外链。
+- **性能与可达性**：滚动暂停装饰动画、`prefers-reduced-motion` 守卫、移动端降级。
 
----
+## 🛠️ 技术栈
 
-## 🚀 关于我
+Astro 5 · TypeScript · Lightning CSS · @tsparticles · GSAP · vanilla-tilt · canvas-confetti
 
-Full-Stack Engineer & Indie Developer，热爱前沿技术，专注 AI、前端架构与自动化工具开发。
+## 🚀 本地开发
 
-- 🌱 深耕方向：AI 应用开发、全栈自动化、数据可视化
-- 💡 技术兴趣：AI 创意玩具、效率工具、开源分享
-- 🎯 2026 目标：打造更多实用的 AI 驱动产品
-- 🤝 欢迎交流合作，期待与你一起成长！
+```bash
+npm install
+npm run dev        # 本地开发，默认 http://localhost:4321/chaniugv2/
+npm run build      # 构建到 dist/
+npm run preview    # 预览构建产物
+```
 
----
+> 可选：构建期设置 `GITHUB_TOKEN` 环境变量可拉取更完整的 GitHub 数据（不设置则使用静态回退）。
 
-## 🛠️ 技能栈 | Tech Stack
+## 📦 部署
 
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=js,ts,react,vue,python,nodejs,git,github,linux,docker,ai" />
-</p>
+GitHub Actions（`.github/workflows/deploy.yml`）在 push `main` 时自动构建并发布到 GitHub Pages，站点根路径为 `/chaniugv2/`（见 `astro.config.mjs` 的 `base`）。
 
----
+## 📁 项目结构
 
-## 📌 精选项目
+```
+src/
+├── components/      # Astro 组件（Hero / About / Skills / Stats / Contact / Journey / Modal ...）
+├── data/            # 单一数据源（site.ts / skills.ts / journey.ts / modals.json / github.ts）
+├── lib/             # 纯函数工具（charts.ts 本地 SVG 图表）
+├── layouts/         # BaseLayout（全局样式与脚本装配）
+├── pages/index.astro
+css/modules/         # 组件级 CSS（按模块拆分）
+public/img/          # 静态图片资源
+```
 
-<div align="center">
+数据驱动：文案、技能、时间轴、联系方式均集中在 `src/data/`，改内容无需动组件。
 
-<a href="https://Chaniug.github.io/chaniugv2/" target="_blank">
-  <img src="https://img.shields.io/badge/🌟-个人主页-7B68EE?style=for-the-badge&logo=vercel&logoColor=white&labelColor=1a1b27" alt="个人主页" />
-</a>
+## ✏️ 待替换占位符
 
-<br/>
-
-<sub>
-  🎨 深色科技风 &nbsp;|&nbsp; ✨ 星空粒子背景 &nbsp;|&nbsp; 🪟 玻璃拟态 &nbsp;|&nbsp; ⚡ 纯静态 SPA
-</sub>
-
-<br/>
-<sub>🔭 技能星图 · 滚动视差 · 打字动画 · 交互彩蛋</sub>
-
-<br/>
-<br/>
-
-<a href="https://Chaniug.github.io/chaniugv2/" target="_blank">
-  <img src="https://img.shields.io/badge/🔗_在线访问-Chaniug.github.io/chaniugv2-blueviolet?style=flat-square" alt="在线访问" />
-</a>
-<a href="https://github.com/Chaniug/chaniugv2" target="_blank">
-  <img src="https://img.shields.io/badge/📂_源代码-GitHub-181717?style=flat-square&logo=github" alt="源代码" />
-</a>
-
-</div>
-
-<p align="center">
-  <a href="https://github.com/Chaniug?tab=repositories" target="_blank">
-    <img src="https://img.shields.io/badge/查看全部项目-28%20Repos-blue?style=for-the-badge&logo=github" alt="查看全部项目" />
-  </a>
-</p>
+- 邮箱 `you@example.com`、QQ `your-qq`、微信 `valkjin`（在 `src/data/site.ts`）
+- 如需真实 GitHub 统计，给 CI 配置 `GITHUB_TOKEN`
 
 ---
 
-### 🐍 代码贡献
-
-![贪吃蛇贡献动画](https://raw.githubusercontent.com/Chaniug/chaniugv2/output/github-contribution-grid-snake.svg)
-
----
-
----
-
-## 📬 联系我 | Connect with Me
-
-<p align="center">
-  <a href="https://Chaniug.github.io/chaniugv2/"><img src="https://img.shields.io/badge/个人主页-Chaniug.github.io/chaniugv2-blueviolet?style=for-the-badge&logo=firefox-browser" /></a>
-  <a href="https://x.com/valkjin"><img src="https://img.shields.io/badge/X(Twitter)-@valkjin-1DA1F2?style=for-the-badge&logo=x" /></a>
-  <a href="https://t.me/valkjin"><img src="https://img.shields.io/badge/Telegram-valkjin-26A5E4?style=for-the-badge&logo=telegram" /></a>
-  <a href="mailto:you@example.com"><img src="https://img.shields.io/badge/邮箱-you@example.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" /></a>
-</p>
-
----
-
-<p align="center">
-  <img src="https://komarev.com/ghpvc/?username=Chaniug&label=Profile%20views&color=0e75b6&style=flat-square" alt="Profile Views" />
-  <img src="https://img.shields.io/github/followers/Chaniug?label=Follow&style=social" alt="GitHub Followers" />
-</p>
+© 2026 Chaniug · 全新独立项目（与老仓库 `Chaniug/Chaniug` 完全隔离）

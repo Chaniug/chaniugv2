@@ -41,6 +41,8 @@ const ogImage = `${Astro.site}/img/avatar.jpg`;
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- 防主题闪烁：在样式应用前同步设定 data-theme -->
     <script is:inline>
       (function () {
@@ -54,9 +56,6 @@ const ogImage = `${Astro.site}/img/avatar.jpg`;
       })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <link rel="preconnect" href="https://cdn.simpleicons.org" crossorigin />
-    <link rel="preconnect" href="https://github-profile-summary-cards.vercel.app" crossorigin />
-    <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0a0a14" />
