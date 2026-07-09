@@ -103,6 +103,85 @@
     z-index: 2;
 }
 
+/* ============================================================
+   HERO TITLE — 渐变流光主标题（大胆重塑新增，老项目无）
+   ============================================================ */
+.hero-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(2.8rem, 9vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    background: linear-gradient(
+        100deg,
+        var(--accent-blue) 0%,
+        var(--accent-purple) 35%,
+        var(--accent-cyan) 55%,
+        #ffffff 75%,
+        var(--accent-blue) 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: hero-title-flow 7s linear infinite;
+    filter: drop-shadow(0 0 26px rgba(79, 140, 255, 0.28));
+}
+@keyframes hero-title-flow {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 250% 50%; }
+}
+
+/* 打字机身份标语 */
+.hero-typed {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(0.85rem, 2.4vw, 1.05rem);
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    min-height: 1.4em;
+}
+.hero-typed .caret {
+    color: var(--accent-cyan);
+    font-weight: 300;
+    animation: cursor-blink 1s step-end infinite;
+    margin-left: 1px;
+}
+
+/* ============================================================
+   HERO AURA — 头像背后的旋转渐变光环（新增视觉锚点）
+   ============================================================ */
+.hero-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 320px;
+    height: 320px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        var(--accent-blue),
+        var(--accent-purple),
+        var(--accent-cyan),
+        var(--accent-blue)
+    );
+    filter: blur(55px);
+    opacity: 0.45;
+    z-index: 0;
+    animation: aura-spin 14s linear infinite;
+    pointer-events: none;
+}
+@keyframes aura-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+html[data-theme='light'] .hero-aura { opacity: 0.5; }
+@media (prefers-reduced-motion: reduce) {
+    .hero-aura, .hero-title { animation: none; }
+}
+
 /* ===== 头像容器 ===== */
 .avatar-wrapper {
     position: relative;

@@ -14,6 +14,7 @@ import '../../css/modules/stats.css';
 import '../../css/modules/contact.css';
 import '../../css/modules/horizontal.css';
 import '../../css/modules/responsive.css';
+import '../../css/modules/theme.css';
 
 import BackgroundField from '../components/BackgroundField.astro';
 import SiteNav from '../components/SiteNav.astro';
@@ -40,6 +41,18 @@ const ogImage = `${Astro.site}/img/avatar.jpg`;
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <!-- 防主题闪烁：在样式应用前同步设定 data-theme -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="preconnect" href="https://cdn.simpleicons.org" crossorigin />
     <link rel="preconnect" href="https://github-profile-summary-cards.vercel.app" crossorigin />

@@ -3,6 +3,12 @@
 // 保留 orbs / overlays / spotlight 等 CSS 装饰（样式来自全局 css/modules）
 ---
 <div id="bg-field" aria-hidden="true">
+  <div id="aurora">
+    <span class="aurora-blob a1"></span>
+    <span class="aurora-blob a2"></span>
+    <span class="aurora-blob a3"></span>
+    <span class="aurora-blob a4"></span>
+  </div>
   <div id="tsparticles"></div>
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
@@ -37,6 +43,75 @@
     );
     transition: background 0.2s ease;
   }
+
+  /* ============================================================
+     AURORA — 极光 mesh 渐变层（老项目无此元素，核心视觉差异）
+     四个高模糊彩色 blob 缓慢漂移 + 混合，营造流动光幕
+     ============================================================ */
+  #aurora {
+    position: absolute;
+    inset: -10%;
+    filter: blur(70px) saturate(135%);
+    opacity: 0.55;
+    z-index: 0;
+  }
+  .aurora-blob {
+    position: absolute;
+    width: 48vw;
+    height: 48vw;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+  html[data-theme='light'] #aurora {
+    opacity: 0.32;
+    mix-blend-mode: multiply;
+  }
+  .aurora-blob.a1 {
+    top: -8%;
+    left: -5%;
+    background: radial-gradient(circle at 40% 40%, #4f8cff 0%, transparent 62%);
+    animation: aurora-drift-1 26s ease-in-out infinite;
+  }
+  .aurora-blob.a2 {
+    top: 8%;
+    right: -8%;
+    background: radial-gradient(circle at 60% 50%, #a855f7 0%, transparent 60%);
+    animation: aurora-drift-2 32s ease-in-out infinite;
+  }
+  .aurora-blob.a3 {
+    bottom: -12%;
+    left: 18%;
+    background: radial-gradient(circle at 50% 50%, #22d3ee 0%, transparent 58%);
+    animation: aurora-drift-3 28s ease-in-out infinite;
+  }
+  .aurora-blob.a4 {
+    bottom: 4%;
+    right: 12%;
+    background: radial-gradient(circle at 30% 60%, #c084fc 0%, transparent 60%);
+    animation: aurora-drift-4 36s ease-in-out infinite;
+  }
+  @keyframes aurora-drift-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(10vw, 6vh) scale(1.15); }
+  }
+  @keyframes aurora-drift-2 {
+    0%, 100% { transform: translate(0, 0) scale(1.05); }
+    50%      { transform: translate(-8vw, 10vh) scale(1.2); }
+  }
+  @keyframes aurora-drift-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(12vw, -8vh) scale(1.1); }
+  }
+  @keyframes aurora-drift-4 {
+    0%, 100% { transform: translate(0, 0) scale(1.1); }
+    50%      { transform: translate(-10vw, -6vh) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-blob { animation: none !important; }
+  }
+  /* 滚动时暂停极光漂移（性能） */
+  body.is-scrolling .aurora-blob { animation-play-state: paused; }
 </style>
 
 <script>

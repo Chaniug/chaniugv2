@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import ThemeToggle from './ThemeToggle.astro';
 ---
 <nav class="site-nav" id="siteNav" aria-label="主导航">
   <div class="nav-inner">
@@ -26,6 +27,7 @@ import { site } from '../data/site';
         ))
       }
     </ul>
+    <ThemeToggle />
     <button type="button" class="nav-toggle" id="navToggle" aria-label="切换导航菜单" aria-expanded="false">
       <span class="nav-toggle-bar"></span>
       <span class="nav-toggle-bar"></span>

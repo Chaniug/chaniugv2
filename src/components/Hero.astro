@@ -11,8 +11,17 @@ const base = import.meta.env.BASE_URL;
       <div class="orbit-ring ring-3"></div>
     </div>
 
-    <!-- 头像 -->
+    <!-- 渐变标题 + 打字机身份 -->
+    <h1 class="hero-title reveal" aria-label="Valkjin">
+      <span class="hero-title-text">Valkjin</span>
+    </h1>
+    <p class="hero-typed reveal" aria-label="身份标语">
+      <span id="typed"></span><span class="caret" aria-hidden="true">|</span>
+    </p>
+
+    <!-- 头像（含旋转光环） -->
     <div class="avatar-wrapper reveal">
+      <div class="hero-aura" aria-hidden="true"></div>
       <div class="avatar" title="valkjin">
         <picture>
           <source srcset={`${base}img/avatar.webp`} type="image/webp" />
@@ -85,6 +94,28 @@ const base = import.meta.env.BASE_URL;
 </section>
 
 <script>
+  // 打字机身份标语
+  const typedEl = document.getElementById('typed');
+  if (typedEl) {
+    const phrases = ['前端架构 × AI', '自动化工程师', '创意工具制造者', '用代码点亮数字世界'];
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      typedEl.textContent = phrases[0];
+    } else {
+      let pi = 0, ci = 0, deleting = false;
+      function tick() {
+        const full = phrases[pi];
+        ci += deleting ? -1 : 1;
+        typedEl.textContent = full.slice(0, ci);
+        let delay = deleting ? 45 : 95;
+        if (!deleting && ci === full.length) { delay = 1600; deleting = true; }
+        else if (deleting && ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; delay = 350; }
+        setTimeout(tick, delay);
+      }
+      tick();
+    }
+  }
+
   // 编辑器三态点击切换（装饰性微交互）
   const editor = document.getElementById('editorBody');
   const statusEl = document.getElementById('editorStatus');
