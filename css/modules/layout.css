@@ -14,6 +14,10 @@
     }
 }
 
+/* 防止 Hero 在桌面端突破 720px 约束铺满内容列时，因 100vw 含滚动条宽度
+   而产生的亚像素横向滚动条 */
+html, body { overflow-x: hidden; }
+
 /* ============================================================
    SECTION LAYOUT — 编辑式节奏与宽裕留白
    ============================================================ */
@@ -95,10 +99,13 @@
 }
 
 /* ============================================================
-   GLASS CARD — 扁平 + 发丝边（极简，无霓虹/无外发光）
+   GLASS CARD — 毛玻璃 + 渐变描边（悬停显现）+ 内发光
    ============================================================ */
 .glass-card {
     background: var(--glass-bg);
+    background: color-mix(in srgb, var(--glass-bg) 82%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
     border: 1px solid var(--border);
     border-radius: 14px;
     transition: border-color var(--transition-smooth),
@@ -110,22 +117,37 @@
         0 10px 30px rgba(20, 20, 30, 0.05);
 }
 
-.glass-card:hover {
-    border-color: var(--border-strong);
-    transform: translateY(-3px);
-    box-shadow: 0 2px 4px rgba(20, 20, 30, 0.05),
-        0 18px 44px rgba(20, 20, 30, 0.09);
+/* 渐变描边：用 mask 抠出 1px 边圈，默认隐藏，悬停淡入 */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+    pointer-events: none;
 }
 
-/* 移动端：纯色背景替代毛玻璃（更轻量） */
+.glass-card:hover {
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 2px 4px rgba(20, 20, 30, 0.05),
+        0 18px 44px rgba(20, 20, 30, 0.09),
+        inset 0 0 0 1px var(--accent-soft);
+}
+.glass-card:hover::before { opacity: 1; }
+
+/* 移动端：纯色背景 + 关闭 backdrop-filter（更轻量） */
 @media (max-width: 768px) {
     .glass-card {
         background: var(--glass-bg);
-    }
-    .site-nav,
-    .site-nav.scrolled,
-    .nav-links {
-        background: var(--bg-elevated);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
     }
 }
 

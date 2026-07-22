@@ -1,8 +1,52 @@
 ---
-const lead = '我是 Chaniug，一个把重复劳动交给脚本的开发者。';
-const paras = [
-  '日常以 Python 与 TypeScript 为主，维护 FilterFusion（广告过滤规则管理）、AdSuper（过滤列表自动生成）、IPTV-Collector（中文 IPTV 源聚合）等开源工具，并持续打磨一个支持多模型（x-auto / x-dsv4f / x-glm5.2 等）的 Buddy 客户端。',
-  '相信好的工具应当安静、可靠、可维护 —— 把复杂留在底层，把简单交给使用者。代码之外，也喜欢在自动化与流媒体工程的交界处寻找新的可能性。',
+const lead = '我是 Valkjin，专注广告过滤规则管理与自动化工具链的开发者。把复杂留在底层，把简单交给使用者。';
+const blocks = [
+  {
+    no: '01',
+    kicker: '何以为我 · Know Thyself',
+    title: 'Valkjin',
+    role: 'Full-Stack Engineer & Indie Developer',
+    desc: 'AI 驱动产品与自动化，构建有序的数字世界。日常以 Python 与 TypeScript 为主，从想法到落地，享受构建完整产品的每一个环节。',
+    tags: ['广告过滤', '自动化', '开源工具'],
+  },
+  {
+    no: '02',
+    kicker: '向何而去 · Into the Unknown',
+    title: 'Pathfinder',
+    role: 'AI Explorer & System Architect',
+    desc: '穿越技术迷雾，于未知中探寻方向与答案。持续打磨一个支持多模型（x-auto / x-dsv4f / x-glm5.2 等）的 Buddy 客户端，探索 LLM 应用架构与端侧推理部署。',
+    tags: ['LLM 应用架构', '智能体工作流', '端侧 AI 推理'],
+  },
+  {
+    no: '03',
+    kicker: '何以筑之 · The Making',
+    title: 'The Architect',
+    role: 'Tooling Engineer & Systems Architect',
+    desc: '从底层基建到上层应用，精心构筑数字世界的每一块基石。维护 FilterFusion（广告过滤规则管理）、AdSuper（过滤列表自动生成）、IPTV-Collector（中文 IPTV 源聚合）等开源工具，并持续投入开源社区与自动化效率。',
+    tags: ['开发者工具链', '自动化效率', '开源贡献'],
+  },
+  {
+    no: '04',
+    kicker: '探索方向 · Exploration',
+    title: '探索方向',
+    desc: '多模态感知 · 知识推理 · 模型可解释性。从语义理解到多模态对齐，从知识蒸馏到自动化评测体系——探索 AI 在真实场景中的每一种纵深可能。',
+    quote: '「万物静观皆自得」 — 程颢《秋日偶成》',
+  },
+  {
+    no: '05',
+    kicker: '创造与分享 · Create & Share',
+    title: '创造与分享',
+    desc: 'AI 创意工具 · 效率产品 · 开源贡献。独立开发是最好的学习方式——把每个想法变成可用、可维护、让人愉悦的产品。',
+    quote: '「What I cannot create, I do not understand.」 — Richard Feynman',
+  },
+  {
+    no: '06',
+    kicker: '技术栈 · Tech Stack',
+    title: '技术栈',
+    desc: '前端工程（React / Vue 组件架构，模块化状态管理，构建工具链与性能优化）；后端服务（Node.js 与 Python 服务端开发，RESTful API 设计，数据库建模与并发处理）；基础设施（Docker 容器化，CI/CD 自动化流水线，Linux 运维与云编排）。',
+    quote: '「技进乎道」 — 《庄子·养生主》',
+    tags: ['全栈视野', '模块化思维', '可维护工程体系'],
+  },
 ];
 ---
 <section id="about" class="stream-section">
@@ -11,29 +55,111 @@ const paras = [
     <span class="sl-text">About</span>
   </div>
   <p class="about-lead reveal">{lead}</p>
-  {
-    paras.map((p) => (
-      <p class="about-body reveal">{p}</p>
-    ))
-  }
+  <div class="about-blocks">
+    {
+      blocks.map((b) => (
+        <article class="about-block reveal">
+          <div class="ab-side"><span class="ab-no">{b.no}</span></div>
+          <div class="ab-main">
+            <span class="ab-kicker">{b.kicker}</span>
+            <h2 class="ab-title">{b.title}</h2>
+            {b.role && <p class="ab-role">{b.role}</p>}
+            <p class="ab-desc">{b.desc}</p>
+            {b.tags && (
+              <div class="ab-tags">
+                {b.tags.map((t) => <span class="ab-tag">{t}</span>)}
+              </div>
+            )}
+            {b.quote && <p class="ab-quote">{b.quote}</p>}
+          </div>
+        </article>
+      ))
+    }
+  </div>
 </section>
 
 <style>
   .about-lead {
     font-family: var(--font-display);
-    font-size: 1.55rem;
-    font-weight: 500;
-    line-height: 1.45;
+    font-size: 1.72rem;
+    font-weight: 600;
+    line-height: 1.4;
     color: var(--text-primary);
-    margin: 0 0 var(--space-lg);
+    margin: 0 0 var(--space-xl);
+    letter-spacing: 0.005em;
+    max-width: 30ch;
+  }
+  .about-blocks {
+    display: flex;
+    flex-direction: column;
+  }
+  .about-block {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 0 var(--space-lg);
+    padding: var(--space-lg) 0;
+    border-top: 1px solid var(--border);
+  }
+  .about-block:first-child { border-top: none; padding-top: 0; }
+  .ab-side { padding-top: 0.35rem; }
+  .ab-no {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .ab-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .ab-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin: 0.25rem 0 0.3rem;
+  }
+  .ab-role {
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    margin: 0 0 0.6rem;
     letter-spacing: 0.01em;
   }
-  .about-body {
+  .ab-desc {
     font-size: 0.95rem;
-    line-height: 1.85;
+    line-height: 1.8;
     color: var(--text-secondary);
-    margin: 0 0 var(--space-md);
-    max-width: 60ch;
+    margin: 0;
+    max-width: 62ch;
   }
-  .about-body:last-child { margin-bottom: 0; }
+  .ab-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.7rem;
+  }
+  .ab-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.22rem 0.65rem;
+  }
+  .ab-quote {
+    margin: 0.7rem 0 0;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  @media (max-width: 560px) {
+    .about-block { grid-template-columns: 1fr; gap: 0; }
+    .ab-side { margin-bottom: 0.4rem; }
+  }
 </style>

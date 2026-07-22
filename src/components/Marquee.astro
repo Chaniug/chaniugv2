@@ -26,3 +26,43 @@ const words = [
     }
   </div>
 </div>
+
+<style>
+  .marquee-section {
+    width: 100%;
+    overflow: hidden;
+    padding: 0.8rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-subtle);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 30s linear infinite;
+  }
+  .marquee-content {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .marquee-content span {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0 0.7rem;
+    white-space: nowrap;
+  }
+  .marquee-dot {
+    color: var(--accent);
+  }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+</style>

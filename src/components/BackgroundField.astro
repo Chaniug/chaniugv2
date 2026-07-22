@@ -1,6 +1,6 @@
 ---
-// 极简背景层：纸感径向微光 + 极淡颗粒纹理
-// 无粒子 / 无极光 / 无光球，纯静态，零运行时开销
+// 氛围背景层（P0 升级）：分层纵深 + 第二束强调色光晕 + 编辑网格 + 暗角 + 质感颗粒
+// 纯静态 CSS，零运行时开销；明暗双主题；天然兼容 prefers-reduced-motion（无动画）
 ---
 <div id="bg-field" aria-hidden="true">
   <div class="bg-grain"></div>
@@ -12,28 +12,44 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(
-      125% 80% at 50% -12%,
-      var(--accent-soft),
-      transparent 58%
-    );
+    background-color: var(--bg-deep);
+
+    /* 分层：次色紫(右上) → 点缀青(左下) → 主色微光(顶部) → 编辑网格 → 暗角 */
+    background-image:
+      radial-gradient(58% 52% at 84% 10%, rgba(107, 84, 184, 0.08), transparent 60%),
+      radial-gradient(54% 50% at 6% 90%, rgba(31, 138, 163, 0.06), transparent 60%),
+      radial-gradient(120% 80% at 50% -12%, var(--accent-soft), transparent 60%),
+      linear-gradient(rgba(20, 20, 30, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20, 20, 30, 0.022) 1px, transparent 1px),
+      radial-gradient(135% 120% at 50% 50%, transparent 55%, rgba(20, 20, 30, 0.05) 100%);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 66px 66px, 66px 66px, 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat, no-repeat;
   }
+
+  /* 颗粒：更细的 fractal noise，提升纸感/墨物质地 */
   .bg-grain {
     position: absolute;
     inset: 0;
-    opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-repeat: repeat;
-    background-size: 180px 180px;
+    background-size: 200px 200px;
+    mix-blend-mode: multiply;
   }
+
+  /* ===== 墨色（深色）覆盖：光晕更饱和，网格更隐，暗角更深 ===== */
   html[data-theme='dark'] #bg-field {
-    background: radial-gradient(
-      125% 80% at 50% -12%,
-      rgba(111, 155, 255, 0.07),
-      transparent 58%
-    );
+    background-image:
+      radial-gradient(58% 52% at 84% 10%, rgba(177, 139, 255, 0.11), transparent 60%),
+      radial-gradient(54% 50% at 6% 90%, rgba(95, 208, 224, 0.08), transparent 60%),
+      radial-gradient(120% 80% at 50% -12%, rgba(111, 155, 255, 0.10), transparent 60%),
+      linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+      radial-gradient(135% 120% at 50% 50%, transparent 50%, rgba(0, 0, 0, 0.40) 100%);
   }
   html[data-theme='dark'] .bg-grain {
-    opacity: 0.04;
+    opacity: 0.06;
+    mix-blend-mode: screen;
   }
 </style>

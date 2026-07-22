@@ -59,7 +59,7 @@ export const site = {
     {
       platform: 'qq',
       name: 'QQ',
-      detail: 'your-qq',
+      detail: '1247903536',
       href: '#',
       copy: true,
     },

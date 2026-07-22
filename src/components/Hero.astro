@@ -1,95 +1,645 @@
 ---
-import signatureSvg from '../../public/img/valkjin.svg?raw';
+import signatureSvgRaw from '../../public/img/valkjin.svg?raw';
 const base = import.meta.env.BASE_URL;
+
+// 给手写签名注入彩色渐变（紫 → 青 → 绿，呼应氛围背景双色光晕），
+// 把原本单色(currentColor)的签名改成彩色描边；渐变 ID 同文档内引用。
+const signatureSvg = signatureSvgRaw.replace(
+  /(<svg[^>]*>)/,
+  `$1<defs><linearGradient id="sigGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a78bfa"/><stop offset="55%" stop-color="#7dd3fc"/><stop offset="100%" stop-color="#5eead4"/></linearGradient></defs>`
+);
 ---
 <section id="hero" class="section hero">
-  <div class="section-inner hero-content">
-    <p class="hero-eyebrow reveal">Creative Developer · AI · 前端 · 自动化</p>
+  <div class="hero-spotlight" id="heroSpotlight" aria-hidden="true"></div>
 
-    <h1 class="hero-title reveal" aria-label="Valkjin">Valkjin</h1>
+  <div class="section-inner hero-content hero-grid">
+    <div class="hero-left">
+      <p class="hero-eyebrow reveal">Creative Developer · AI · 前端 · 自动化</p>
 
-    <p class="hero-typed reveal" aria-label="身份标语">
-      <span id="typed"></span><span class="caret" aria-hidden="true"></span>
-    </p>
+      <h1 class="hero-title reveal" aria-label="Valkjin">Valkjin</h1>
 
-    <div class="hero-avatar-row reveal">
-      <div class="avatar-wrapper">
-        <div class="avatar" title="valkjin">
-          <picture>
-            <source srcset={`${base}img/avatar.webp`} type="image/webp" />
-            <img src={`${base}img/avatar.jpg`} alt="valkjin 头像" width="120" height="120" />
-          </picture>
-          <span class="avatar-status" title="在线"></span>
+      <p class="hero-typed reveal" aria-label="身份标语">
+        <span id="typed"></span><span class="caret" aria-hidden="true"></span>
+      </p>
+
+      <div class="hero-avatar-row reveal">
+        <div class="avatar-wrapper">
+          <div class="avatar" title="valkjin">
+            <picture>
+              <source srcset={`${base}img/avatar.webp`} type="image/webp" />
+              <img src={`${base}img/avatar.jpg`} alt="valkjin 头像" width="120" height="120" />
+            </picture>
+            <span class="avatar-status" title="在线"></span>
+          </div>
+        </div>
+        <div class="hero-signature" id="heroSignature" aria-label="Valkjin 签名" role="img">
+          <div class="signature-inner" set:html={signatureSvg}></div>
+          <span class="signature-pen" aria-hidden="true"></span>
         </div>
       </div>
-      <div class="hero-signature" id="heroSignature" aria-label="Valkjin 签名" role="img">
-        <div class="signature-inner" set:html={signatureSvg}></div>
-      </div>
+
+      <a href="#projects" class="hero-cta reveal" data-magnetic>
+        查看项目 <span aria-hidden="true">↓</span>
+      </a>
     </div>
 
-    <!-- 代码编辑器（3 态交互占位） -->
-    <div class="hero-bio code-editor reveal">
-      <div class="editor-titlebar">
-        <div class="editor-dots">
-          <span class="dot dot-red"></span>
-          <span class="dot dot-yellow"></span>
-          <span class="dot dot-green"></span>
+    <div class="hero-right reveal">
+      <!-- 代码编辑器（3 态交互占位） -->
+      <div class="hero-bio code-editor">
+        <div class="editor-titlebar">
+          <div class="editor-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="editor-filename">~/valkjin/profile.ts</div>
+          <div class="editor-lang">TS</div>
         </div>
-        <div class="editor-filename">~/valkjin/profile.ts</div>
-        <div class="editor-lang">TS</div>
-      </div>
-      <div class="editor-body" id="editorBody" data-state="error" role="button" tabindex="0" aria-label="点击编辑器切换代码状态">
-        <div class="code-content" id="codeContent" role="img" aria-label="valkjin 开发者简介代码片段">
-          <div class="code-line"><span class="tok-comment">// valkjin — creative developer</span></div>
-          <div class="code-line"><span class="tok-kw">const</span> <span class="tok-var">developer</span> <span class="tok-punct">=</span> <span class="tok-punct">{</span></div>
-          <div class="code-line indent"><span class="tok-var">role</span><span class="tok-punct">:</span> <span class="tok-str">"前端架构 × AI"</span><span class="tok-punct">,</span></div>
-          <div class="code-line indent error-line"><span class="tok-var">stack</span><span class="tok-punct">:</span> <span class="tok-punct">[</span><span class="tok-str">"LLM"</span><span class="tok-punct">,</span> <span class="tok-str">"自动化"</span><span class="tok-punct">,</span> <span class="tok-str">"创意工具"</span><span class="tok-punct">]</span><span class="typing-cursor">|</span></div>
-          <div class="code-line indent"><span class="tok-var">motto</span><span class="tok-punct">:</span> <span class="tok-str">"用代码点亮数字世界"</span><span class="tok-punct">,</span></div>
-          <div class="code-line indent"><span class="tok-var">status</span><span class="tok-punct">:</span> <span class="tok-str">"co-creating the future"</span></div>
-          <div class="code-line"><span class="tok-punct">}</span></div>
-          <div class="code-line"><span class="tok-comment">// </span><span class="tok-err">✖ SyntaxError: expected ','</span></div>
+        <div class="editor-body" id="editorBody" data-state="error" role="button" tabindex="0" aria-label="点击编辑器切换代码状态">
+          <div class="code-content" id="codeContent" role="img" aria-label="valkjin 开发者简介代码片段">
+            <div class="code-line"><span class="tok-comment">// valkjin — creative developer</span></div>
+            <div class="code-line"><span class="tok-kw">const</span> <span class="tok-var">developer</span> <span class="tok-punct">=</span> <span class="tok-punct">{</span></div>
+            <div class="code-line indent"><span class="tok-var">role</span><span class="tok-punct">:</span> <span class="tok-str">"前端架构 × AI"</span><span class="tok-punct">,</span></div>
+            <div class="code-line indent error-line"><span class="tok-var">stack</span><span class="tok-punct">:</span> <span class="tok-punct">[</span><span class="tok-str">"LLM"</span><span class="tok-punct">,</span> <span class="tok-str">"自动化"</span><span class="tok-punct">,</span> <span class="tok-str">"创意工具"</span><span class="tok-punct">]</span><span class="typing-cursor">|</span></div>
+            <div class="code-line indent"><span class="tok-var">motto</span><span class="tok-punct">:</span> <span class="tok-str">"用代码点亮数字世界"</span><span class="tok-punct">,</span></div>
+            <div class="code-line indent"><span class="tok-var">status</span><span class="tok-punct">:</span> <span class="tok-str">"co-creating the future"</span></div>
+            <div class="code-line"><span class="tok-punct">}</span></div>
+            <div class="code-line"><span class="tok-comment">// </span><span class="tok-err">✖ SyntaxError: expected ','</span></div>
+          </div>
+          <span class="editor-hint" id="editorHint">▸ click to fix</span>
         </div>
-        <span class="editor-hint" id="editorHint">▸ click to fix</span>
-      </div>
-      <div class="hero-terminal">
-        <span class="terminal-prompt">&gt;</span>
-        <input type="text" class="terminal-input" id="terminalInput" placeholder="enter code..." maxlength="10" autocomplete="off" spellcheck="false" aria-label="彩蛋终端输入框，输入特定口令触发隐藏效果" />
-      </div>
-      <div class="editor-statusbar">
-        <span class="editor-status is-error" id="editorStatus"><span class="status-dot"></span><span class="status-text">✖ error</span></span>
-        <div class="editor-actions">
-          <a href="https://Chaniug.github.io/chaniugv2/" target="_blank" rel="noopener" class="action-btn" title="个人主页" aria-label="个人主页">
-            <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5" /><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.2" /><line x1="2" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="1" opacity="0.5" /><path d="M10 2a12 12 0 010 16" stroke="currentColor" stroke-width="1" opacity="0.5" /></svg>
-          </a>
-          <a href="https://x.com/valkjin" target="_blank" rel="noopener" class="action-btn" title="X (Twitter)" aria-label="X (Twitter)">
-            <svg viewBox="0 0 20 20" fill="none"><path d="M3 3l5.5 7.5L3 17h1.3l4.8-5.6 3.9 5.6H17l-5.8-7.9L16 3h-1.3l-4.4 5.2L6.7 3H3z" fill="currentColor" /></svg>
-          </a>
-          <a href="https://t.me/valkjin" target="_blank" rel="noopener" class="action-btn" title="Telegram" aria-label="Telegram">
-            <svg viewBox="0 0 20 20" fill="none"><path d="M2.5 9.5l5 2 2 5L15.5 3.5l-13 6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /></svg>
-          </a>
-          <a href="mailto:you@example.com" class="action-btn" title="邮箱" aria-label="邮箱">
-            <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" /><path d="M2 6l8 6 8-6" stroke="currentColor" stroke-width="1.5" /></svg>
-          </a>
-          <a href="https://github.com/Chaniug" target="_blank" rel="noopener" class="action-btn" title="GitHub" aria-label="GitHub">
-            <svg viewBox="0 0 20 20" fill="none"><path d="M8 16.5c-3 .8-3-1.5-4.5-2m9 7v-3.3c0-1-.3-1.7-.8-2.1 2.8-.3 5.8-1.4 5.8-6.2 0-1.4-.5-2.5-1.3-3.4.1-.3.6-1.6-.2-3.3 0 0-1-.3-3.4 1.3a11.7 11.7 0 00-6.2 0C4.9.6 3.8.9 3.8.9c-.7 1.7-.2 3-.1 3.3A4.9 4.9 0 002.3 7.6c0 4.8 3 5.9 5.8 6.2-.5.4-.8 1.1-.8 2.1V19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-          </a>
+        <div class="hero-terminal">
+          <span class="terminal-prompt">&gt;</span>
+          <input type="text" class="terminal-input" id="terminalInput" placeholder="enter code..." maxlength="10" autocomplete="off" spellcheck="false" aria-label="彩蛋终端输入框，输入特定口令触发隐藏效果" />
+        </div>
+        <div class="editor-statusbar">
+          <span class="editor-status is-error" id="editorStatus"><span class="status-dot"></span><span class="status-text">✖ error</span></span>
+          <div class="editor-actions">
+            <a href="https://Chaniug.github.io/chaniugv2/" target="_blank" rel="noopener" class="action-btn" title="个人主页" aria-label="个人主页" data-magnetic>
+              <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5" /><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.2" /><line x1="2" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="1" opacity="0.5" /><path d="M10 2a12 12 0 010 16" stroke="currentColor" stroke-width="1" opacity="0.5" /></svg>
+            </a>
+            <a href="https://x.com/valkjin" target="_blank" rel="noopener" class="action-btn" title="X (Twitter)" aria-label="X (Twitter)" data-magnetic>
+              <svg viewBox="0 0 20 20" fill="none"><path d="M3 3l5.5 7.5L3 17h1.3l4.8-5.6 3.9 5.6H17l-5.8-7.9L16 3h-1.3l-4.4 5.2L6.7 3H3z" fill="currentColor" /></svg>
+            </a>
+            <a href="https://t.me/valkjin" target="_blank" rel="noopener" class="action-btn" title="Telegram" aria-label="Telegram" data-magnetic>
+              <svg viewBox="0 0 20 20" fill="none"><path d="M2.5 9.5l5 2 2 5L15.5 3.5l-13 6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /></svg>
+            </a>
+            <a href="mailto:you@example.com" class="action-btn" title="邮箱" aria-label="邮箱" data-magnetic>
+              <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" /><path d="M2 6l8 6 8-6" stroke="currentColor" stroke-width="1.5" /></svg>
+            </a>
+            <a href="https://github.com/Chaniug" target="_blank" rel="noopener" class="action-btn" title="GitHub" aria-label="GitHub" data-magnetic>
+              <svg viewBox="0 0 20 20" fill="none"><path d="M8 16.5c-3 .8-3-1.5-4.5-2m9 7v-3.3c0-1-.3-1.7-.8-2.1 2.8-.3 5.8-1.4 5.8-6.2 0-1.4-.5-2.5-1.3-3.4.1-.3.6-1.6-.2-3.3 0 0-1-.3-3.4 1.3a11.7 11.7 0 00-6.2 0C4.9.6 3.8.9 3.8.9c-.7 1.7-.2 3-.1 3.3A4.9 4.9 0 002.3 7.6c0 4.8 3 5.9 5.8 6.2-.5.4-.8 1.1-.8 2.1V19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <a href="#about" class="scroll-hint" aria-label="向下滚动探索更多内容">
+  <a href="#about" class="scroll-hint" aria-label="向下滚动探索更多内容" data-magnetic>
     <span class="scroll-hint-label">// scroll to explore</span>
     <span class="scroll-hint-arrow" aria-hidden="true">↓</span>
   </a>
 </section>
 
+<style>
+  /* ===== Hero 容器与非对称网格 ===== */
+  #hero {
+    min-height: 100vh;
+    padding-top: 5rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  /* 桌面端：突破 .stream-inner 的 720px 约束，铺满内容列，
+     让左右两栏充分展开、代码编辑器获得完整宽度（移动端维持堆叠） */
+  @media (min-width: 901px) {
+    #hero {
+      width: min(var(--content-max-wide), calc(100vw - clamp(290px, 32vw, 380px) - 2 * var(--space-xl) - 1.5rem));
+      margin-left: 50%;
+      transform: translateX(-50%);
+      max-width: none;
+    }
+  }
+  .hero-grid {
+    width: 100%;
+    max-width: var(--content-max-wide);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    text-align: left;
+  }
+  .hero-right {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* 入场交错延迟（替代全局 hero-content nth-child） */
+  .hero-eyebrow { transition-delay: 0.06s; }
+  .hero-title { transition-delay: 0.14s; }
+  .hero-typed { transition-delay: 0.22s; }
+  .hero-avatar-row { transition-delay: 0.30s; }
+  .hero-cta { transition-delay: 0.38s; }
+  .hero-right { transition-delay: 0.20s; }
+
+  /* ===== 聚光（签名效果，减弱动画下由 JS 关闭） ===== */
+  .hero-spotlight {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      280px circle at var(--spot-x, 50%) var(--spot-y, 35%),
+      color-mix(in srgb, var(--accent) 16%, transparent),
+      transparent 62%
+    );
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  #hero:hover .hero-spotlight { opacity: 1; }
+
+  /* ===== 文案 ===== */
+  .hero-eyebrow {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .hero-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3.6rem, 11vw, 7.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--text-primary);
+  }
+  .hero-typed {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(0.85rem, 2.4vw, 1.05rem);
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    min-height: 1.4em;
+  }
+  .hero-typed .caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    margin-left: 2px;
+    vertical-align: -2px;
+    animation: caret-blink 1.1s step-end infinite;
+  }
+  @keyframes caret-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ===== 头像 + 签名 ===== */
+  .hero-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-top: var(--space-sm);
+    flex-wrap: wrap;
+  }
+  .avatar-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatar {
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-subtle);
+    box-shadow: 0 6px 24px rgba(20, 20, 30, 0.10);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+  }
+  .avatar:hover {
+    transform: scale(1.04);
+    box-shadow: 0 10px 32px rgba(20, 20, 30, 0.16);
+  }
+  .avatar-status {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #2bbd6e;
+    border: 2.5px solid var(--bg-elevated);
+    z-index: 3;
+  }
+  .hero-signature {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1;
+  }
+  .hero-signature svg {
+    height: 1em;
+    width: auto;
+    fill: url(#sigGrad);
+  }
+
+  /* 签名流光：渐变色标在 紫→青→绿 之间缓慢循环流动，让彩色更"活" */
+  @keyframes sigStopA { 0%, 100% { stop-color: #a78bfa; } 50% { stop-color: #7dd3fc; } }
+  @keyframes sigStopB { 0%, 100% { stop-color: #7dd3fc; } 50% { stop-color: #5eead4; } }
+  @keyframes sigStopC { 0%, 100% { stop-color: #5eead4; } 50% { stop-color: #a78bfa; } }
+  .hero-signature svg #sigGrad stop:nth-child(1) { animation: sigStopA 8s ease-in-out infinite; }
+  .hero-signature svg #sigGrad stop:nth-child(2) { animation: sigStopB 8s ease-in-out infinite; }
+  .hero-signature svg #sigGrad stop:nth-child(3) { animation: sigStopC 8s ease-in-out infinite; }
+
+  /* ===== 签名动态化：手写描绘（clip 揭示 + 跟随笔尖） ===== */
+  .hero-signature {
+    position: relative;
+    display: inline-block;
+  }
+  .hero-signature .signature-inner {
+    clip-path: inset(0 100% 0 0);
+  }
+  .hero-signature.signing .signature-inner {
+    animation: sig-draw 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  .hero-signature .signature-pen {
+    position: absolute;
+    top: 52%;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    margin: -3.5px 0 0 -3.5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px 2px var(--accent-soft);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hero-signature.signing .signature-pen {
+    animation: sig-pen 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  @keyframes sig-draw {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes sig-pen {
+    0% { left: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    88% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  /* 减少动画：直接静态显示，不做描绘 */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-signature .signature-inner {
+      clip-path: none;
+      animation: none;
+    }
+    .hero-signature .signature-pen { display: none; }
+    .hero-signature svg #sigGrad stop { animation: none; }
+  }
+
+  /* ===== 主 CTA（磁吸目标） ===== */
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--space-xs);
+    padding: 0.72rem 1.35rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    box-shadow: 0 8px 24px var(--accent-soft);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    will-change: transform;
+  }
+  .hero-cta:hover {
+    background: var(--accent-blue);
+    box-shadow: 0 12px 30px rgba(47, 91, 208, 0.28);
+  }
+  .hero-cta span { transition: transform 0.25s ease; }
+  .hero-cta:hover span { transform: translateY(2px); }
+
+  /* ===== 代码编辑器卡片 ===== */
+  .hero-bio.code-editor {
+    gap: 0;
+    padding: 0;
+    max-width: 460px;
+    width: 100%;
+    margin-top: 0;
+    text-align: left;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--glass-bg);
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20, 20, 30, 0.04), 0 18px 44px rgba(20, 20, 30, 0.08);
+  }
+  .editor-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    z-index: 2;
+  }
+  .editor-dots { display: flex; gap: 0.4rem; flex-shrink: 0; }
+  .editor-dots .dot { width: 10px; height: 10px; border-radius: 50%; opacity: 0.65; }
+  .editor-dots .dot-red { background: #e0584f; }
+  .editor-dots .dot-yellow { background: #e0a23a; }
+  .editor-dots .dot-green { background: #46b35e; }
+  .editor-filename {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-align: center;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .editor-lang {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--accent);
+    border: 1px solid var(--accent-soft);
+    background: var(--accent-soft);
+    border-radius: 4px;
+    padding: 0.1rem 0.35rem;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+  .editor-body {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.65;
+    position: relative;
+    z-index: 1;
+    overflow-x: auto;
+    padding: 0.7rem 0;
+    cursor: pointer;
+    counter-reset: codeLine;
+  }
+  .editor-body[data-state='error'] { background: rgba(224, 88, 79, 0.03); }
+  .code-content { margin: 0; padding: 0 0.9rem; }
+  .code-line {
+    counter-increment: codeLine;
+    display: block;
+    white-space: pre;
+    position: relative;
+    padding-left: 2.2rem;
+    opacity: 1;
+    transform: none;
+  }
+  .code-line::before {
+    content: counter(codeLine, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    width: 1.6rem;
+    text-align: right;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .code-line.indent { padding-left: 3rem; }
+  .tok-comment { color: var(--text-muted); font-style: italic; }
+  .tok-kw { color: var(--accent-purple); font-weight: 500; }
+  .tok-str { color: var(--accent-cyan); }
+  .tok-var { color: var(--accent-blue); }
+  .tok-fn { color: #8a6fd0; }
+  .tok-punct { color: var(--text-secondary); }
+  .tok-err { color: #d6584f; font-weight: 500; }
+  .tok-ok { color: #3aa76a; font-weight: 500; }
+  .code-line.error-line {
+    background: rgba(214, 88, 79, 0.05);
+    box-shadow: inset 2px 0 0 rgba(214, 88, 79, 0.45);
+  }
+  .code-line.error-line.shake { animation: errorShake 0.45s ease; }
+  @keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-3px); }
+    40% { transform: translateX(3px); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(1px); }
+  }
+  .editor-hint {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .editor-hint.visible { opacity: 0.6; transform: translateY(0); }
+  .typing-cursor {
+    display: inline-block;
+    color: var(--accent);
+    animation: caret-blink 1s step-end infinite;
+    margin-left: 2px;
+  }
+  .editor-statusbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0.9rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    position: relative;
+    z-index: 2;
+  }
+  .editor-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+  }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #46b35e; }
+  .editor-status.is-error .status-dot { background: #e0584f; }
+  .editor-status.is-error .status-text { color: #d6584f; }
+  .editor-status.is-fixed .status-dot,
+  .editor-status.is-running .status-dot { background: #46b35e; }
+  .editor-status.is-fixed .status-text,
+  .editor-status.is-running .status-text { color: #3aa76a; }
+  .editor-actions { display: flex; gap: 0.2rem; }
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    color: var(--text-muted);
+    transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    will-change: transform;
+  }
+  .action-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .action-btn:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
+  .hero-terminal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    position: relative;
+    z-index: 1;
+    margin-top: 0.3rem;
+    padding: 0.2rem 0.9rem 0.5rem;
+    opacity: 0.5;
+    transition: opacity 0.35s ease;
+    cursor: text;
+  }
+  .hero-terminal:hover,
+  .hero-terminal:focus-within { opacity: 1; }
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-weight: 600;
+    user-select: none;
+    -webkit-user-select: none;
+    line-height: 1;
+  }
+  .terminal-input {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    outline: none;
+    width: 160px;
+    max-width: 240px;
+    padding: 0.15rem 0.3rem;
+    letter-spacing: 0.06em;
+    caret-color: var(--accent);
+    transition: border-color 0.3s ease, color 0.3s ease, width 0.3s ease;
+  }
+  .terminal-input::placeholder { color: var(--text-muted); font-size: 0.72rem; }
+  .terminal-input:focus { color: var(--text-primary); border-bottom-color: var(--accent); width: 220px; }
+
+  /* ===== 滚动引导 ===== */
+  .scroll-hint {
+    position: absolute;
+    bottom: 1.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 5;
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+    text-decoration: none;
+    cursor: pointer;
+    will-change: transform;
+  }
+  .scroll-hint:hover { opacity: 0.9; }
+  .scroll-hint-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .scroll-hint-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    line-height: 1;
+    animation: arrowBounce 2.2s ease-in-out infinite;
+  }
+  @keyframes arrowBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    55% { transform: translateY(-4px); opacity: 1; }
+    75% { opacity: 0.5; }
+  }
+
+  /* ===== 响应式：堆叠为单列 ===== */
+  @media (max-width: 900px) {
+    #hero { min-height: auto; padding: 4rem 0 5rem; }
+    .hero-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: var(--space-lg);
+    }
+    .hero-left { align-items: center; text-align: center; }
+    .hero-cta { align-self: center; }
+  }
+  @media (max-width: 560px) {
+    .hero-bio.code-editor { max-width: 100%; }
+    .code-line { padding-left: 0; }
+    .code-line::before { display: none; }
+    .code-line.indent { padding-left: 0.8rem; }
+    .editor-status { font-size: 0; }
+    .editor-status .status-dot { width: 6px; height: 6px; }
+    .action-btn { width: 24px; height: 24px; }
+    .action-btn svg { width: 13px; height: 13px; }
+    .editor-body { font-size: 0.74rem; }
+  }
+
+  /* 尊重减少动画偏好 */
+  @media (prefers-reduced-motion: reduce) {
+    .caret, .typing-cursor, .scroll-hint-arrow { animation: none; }
+    .code-line.error-line.shake { animation: none; }
+  }
+</style>
+
 <script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // 打字机身份标语
   const typedEl = document.getElementById('typed');
   if (typedEl) {
     const phrases = ['前端架构 × AI', '自动化工程师', '创意工具制造者', '用代码点亮数字世界'];
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) {
       typedEl.textContent = phrases[0];
     } else {
@@ -111,11 +661,7 @@ const base = import.meta.env.BASE_URL;
   const editor = document.getElementById('editorBody');
   const statusEl = document.getElementById('editorStatus');
   const states = ['error', 'fixed', 'result'];
-  const statusText = {
-    error: '✖ error',
-    fixed: '✓ fixed',
-    result: '▶ result',
-  };
+  const statusText = { error: '✖ error', fixed: '✓ fixed', result: '▶ result' };
   let idx = 0;
   function cycle() {
     if (!editor) return;
@@ -133,18 +679,46 @@ const base = import.meta.env.BASE_URL;
   }
   editor?.addEventListener('click', cycle);
   editor?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      cycle();
-    }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycle(); }
   });
 
   // 终端彩蛋：输入触发词 → 广播事件，由 EasterEgg 组件接收
   const term = document.getElementById('terminalInput');
   term?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && term.value.trim() === 'your-qq') {
+    if (e.key === 'Enter' && term.value.trim() === '1247903536') {
       window.dispatchEvent(new CustomEvent('open-easter-egg'));
       term.value = '';
     }
   });
+
+  // 签名效果：聚光跟随（减弱动画下不启用）
+  const heroEl = document.getElementById('hero');
+  const spotlight = document.getElementById('heroSpotlight');
+  if (heroEl && spotlight && !reduce) {
+    heroEl.addEventListener('pointermove', (e) => {
+      const r = heroEl.getBoundingClientRect();
+      spotlight.style.setProperty('--spot-x', `${e.clientX - r.left}px`);
+      spotlight.style.setProperty('--spot-y', `${e.clientY - r.top}px`);
+    });
+  }
+
+  // 签名手写描绘：加载时描一次，悬停可重描（减弱动画下跳过）
+  const sigWrap = document.getElementById('heroSignature');
+  const sigInner = sigWrap?.querySelector('.signature-inner');
+  if (sigWrap && sigInner && !reduce) {
+    let sigTimer;
+    const playSig = () => {
+      sigWrap.classList.remove('signing');
+      sigInner.style.animation = 'none';
+      void sigInner.offsetWidth; // 强制回流以重启动画
+      sigInner.style.animation = '';
+      sigWrap.classList.add('signing');
+    };
+    window.setTimeout(playSig, 750);            // 跟随 hero 文字入场后描绘
+    sigWrap.addEventListener('mouseenter', () => {
+      window.clearTimeout(sigTimer);
+      playSig();
+    });
+  }
+
 </script>

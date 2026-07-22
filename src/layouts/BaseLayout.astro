@@ -6,11 +6,14 @@ import '../../css/modules/layout.css';
 import '../../css/modules/theme.css';
 import '../../css/modules/split.css';
 import '../../css/modules/modal.css';
+import '../../css/modules/horizontal.css';
 
 import SidePanel from '../components/SidePanel.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Reveal from '../components/Reveal.astro';
 import Modal from '../components/Modal.astro';
+import RailNav from '../components/RailNav.astro';
+import Interactions from '../components/Interactions.astro';
 import { site } from '../data/site';
 
 interface Props {
@@ -89,7 +92,7 @@ const personSchema = {
     />
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
@@ -112,7 +115,7 @@ const personSchema = {
       html, body {
         background: #f7f6f3;
         color: #16161a;
-        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-family: 'Space Grotesk', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
       }
       .reveal { opacity: 0; }
@@ -144,5 +147,7 @@ const personSchema = {
     </div>
     <Reveal />
     <Modal />
+    <RailNav />
+    <Interactions />
   </body>
 </html>

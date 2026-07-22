@@ -14,40 +14,51 @@ const note = gh.fallback ? '（静态回退数据）' : '（实时 GitHub 数据
     维护中的开源项目与工具 — 聚焦广告过滤、自动化与流媒体聚合。
   </p>
 
-  <ul class="proj-list">
-    {
-      repos.map((r) => (
-        <li class="proj-item glass-card reveal">
-          <div class="proj-main">
-            <div class="proj-head">
-              <h2 class="proj-name">{r.name}</h2>
-              {r.language && <span class="proj-lang">{r.language}</span>}
+  <div class="h-rail-wrap proj-rail" data-rail>
+    <button class="rail-prev" type="button" aria-label="上一个项目">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+    </button>
+    <ul class="h-rail">
+      {
+        repos.map((r) => (
+          <li class="proj-item glass-card reveal">
+            <div class="proj-main">
+              <div class="proj-head">
+                <h2 class="proj-name">{r.name}</h2>
+                {r.language && <span class="proj-lang">{r.language}</span>}
+              </div>
+              <p class="proj-desc">{r.description}</p>
             </div>
-            <p class="proj-desc">{r.description}</p>
-          </div>
-          <div class="proj-meta">
-            <span class="proj-stars">★ {r.stars}</span>
-            <a class="proj-link" href={r.url} target="_blank" rel="noopener">
-              查看 →
-            </a>
-          </div>
-        </li>
-      ))
-    }
-  </ul>
+            <div class="proj-meta">
+              <span class="proj-stars">★ {r.stars}</span>
+              <a class="proj-link" href={r.url} target="_blank" rel="noopener">
+                查看 →
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <button class="rail-next" type="button" aria-label="下一个项目">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+    </button>
+    <div class="rail-progress"><i></i></div>
+  </div>
+  <p class="rail-hint">拖动 / 滑动浏览 →</p>
   <p class="stream-note">{note}</p>
 </section>
 
 <style>
-  .proj-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
+  .proj-rail {
+    margin: 0 auto;
+    max-width: var(--content-max-wide);
+  }
+  .h-rail {
+    padding-block: 0.5rem;
   }
   .proj-item {
+    flex: 0 0 auto;
+    width: clamp(258px, 72vw, 300px);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -57,10 +68,7 @@ const note = gh.fallback ? '（静态回退数据）' : '（实时 GitHub 数据
       transform var(--transition-smooth), box-shadow var(--transition-smooth);
   }
   .proj-item:hover {
-    border-color: var(--border-strong);
-    transform: translateX(4px);
-    box-shadow: 0 2px 4px rgba(20, 20, 30, 0.05),
-      0 14px 34px rgba(20, 20, 30, 0.08);
+    transform: translateY(-4px);
   }
   .proj-main { min-width: 0; }
   .proj-head {
@@ -114,7 +122,7 @@ const note = gh.fallback ? '（静态回退数据）' : '（实时 GitHub 数据
   .proj-link:hover { opacity: 0.7; }
 
   @media (max-width: 560px) {
-    .proj-item { flex-direction: column; align-items: flex-start; }
+    .proj-item { flex-direction: column; align-items: flex-start; width: 80vw; }
     .proj-meta { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
   }
 </style>
